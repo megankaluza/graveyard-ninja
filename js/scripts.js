@@ -14,8 +14,8 @@ var canvas = document.getElementById("canvas"),
     player = {
       x : width/2,
       y : height - 5,
-      width : 5,
-      height : 5,
+      width : 29,
+      height : 50,
       speed: 3,
       velX: 0,
       velY: 0,
@@ -136,8 +136,10 @@ function update(){
   player.y += player.velY;
 
   ctx.fill();
-  ctx.fillStyle = "red";
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+
+
+
+  ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
 
   requestAnimationFrame(update);
 }
