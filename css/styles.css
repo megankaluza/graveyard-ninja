@@ -16,3 +16,6 @@ h2 {
   border: 1px solid #000;
   background-image: url("../img/BG.png");
 }
+#testSprite {
+  width: 29px;
+}

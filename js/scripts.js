@@ -14,8 +14,8 @@ var canvas = document.getElementById("canvas"),
     player = {
       x : width/2,
       y : height - 5,
-      width : 5,
-      height : 5,
+      width : 29,
+      height : 50,
       speed: 3,
       velX: 0,
       velY: 0,
@@ -36,9 +36,11 @@ boxes.push({
 });
 boxes.push({
   x: 0,
+
   y: height - 2,
   width: width,
   height: 50
+
 });
 boxes.push({
   x: width - 10,
@@ -84,19 +86,20 @@ function update(){
   //check keys
   if (keys[38] || keys[32] || keys[87]) {
     //up arrow or space
+
     if(!player.jumping && player.grounded){
       player.jumping = true;
       player.grounded = false;
       player.velY = -player.speed*2;
     }
   }
-  if (keys[39]) {
+  if (keys[39] || keys[68]) {
     //right arrow
     if (player.velX < player.speed) {
       player.velX++;
     }
   }
-  if (keys[37]) {
+  if (keys[37] || keys[65]) {
     //left arrow
     if (player.velX > -player.speed) {
       player.velX--;
@@ -133,8 +136,10 @@ function update(){
   player.y += player.velY;
 
   ctx.fill();
-  ctx.fillStyle = "red";
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+
+
+
+  ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
 
   requestAnimationFrame(update);
 }
