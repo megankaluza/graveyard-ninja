@@ -19,13 +19,14 @@ var canvas = document.getElementById("canvas"),
       speed: 3,
       velX: 0,
       velY: 0,
-      jumping: false
+      jumping: false,
+      grounded: false
     },
     keys = [],
     friction = 0.8,
     gravity = 0.3;
 
-var boxes = []
+var boxes = [];
 //dimensions
 boxes.push({
   x: 0,
@@ -45,16 +46,47 @@ boxes.push({
   width: 50,
   height: height
 });
+boxes.push({
+    x: 60,
+    y: 550,
+    width: 120,
+    height: 80
+});
+boxes.push({
+    x: 50,
+    y: 450,
+    width: 60,
+    height: 20
+});
+boxes.push({
+    x: 180,
+    y: 470,
+    width: 280,
+    height: 10
+});
+boxes.push({
+    x: 250,
+    y: 510,
+    width: 200,
+    height: 10
+});
+boxes.push({
+    x: 180,
+    y: 370,
+    width: 280,
+    height: 40
+});
 
 canvas.width = width;
 canvas.height = height;
 
 function update(){
   //check keys
-  if (keys[38] || keys[32]) {
-    //up arrow
-    if(!player.jumping){
+  if (keys[38] || keys[32] || keys[87]) {
+    //up arrow or space
+    if(!player.jumping && player.grounded){
       player.jumping = true;
+      player.grounded = false;
       player.velY = -player.speed*2;
     }
   }
@@ -70,36 +102,42 @@ function update(){
       player.velX--;
     }
   }
-  player.x += player.velX;
-  player.y += player.velY;
-
-  if (player.x >= width-player.width){
-      player.x = width-player.width;
-  } else if (player.x <= 0) {
-      player.x = 0;
-  }
-
-  if(player.y >= height-player.height){
-    player.y = height - player.height;
-    player.jumping = false;
-  }
 
   player.velX *= friction;
   player.velY += gravity;
 
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "green";
   ctx.beginPath();
 
+  player.grounded = false;
   for(var i = 0; i < boxes.length; i++) {
     ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+    var dir = colCheck(player, boxes[i]);
+    if (dir === "l" || dir === "r") {
+      player.velX = 0;
+      player.jumping =  false;
+    } else if (dir === "b") {
+      player.grounded = true;
+      player.jumping = false;
+    } else if  (dir === "t") {
+      player.velY *= -1;
+    }
   }
-  ctx.fill();
 
-  ctx.fillStyle = "pink";
+  if (player.grounded) {
+    player.velY = 0;
+  }
+
+  player.x += player.velX;
+  player.y += player.velY;
+
+  ctx.fill();
+  ctx.fillStyle = "red";
   ctx.fillRect(player.x, player.y, player.width, player.height);
+
   requestAnimationFrame(update);
-};
+}
 
 function colCheck(shapeA, shapeB) {
   var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
@@ -109,20 +147,24 @@ function colCheck(shapeA, shapeB) {
       colDir = null;
 
   if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
-    if (vY > 0) {
-      colDir = "t";
-      shapeA.y += oY;
-    } else {
-      colDir = "b";
-      shapeA.y -= oY;
-    }
-  } else {
+    var oX = hWidths - Math.abs(vX),
+        oY = hHeights - Math.abs(vY);
+        if (oX >= oY) {
+          if (vY > 0) {
+              colDir = "t";
+              shapeA.y += oY;
+          } else {
+              colDir = "b";
+              shapeA.y -= oY;
+          }
+      } else {
     if (vX > 0) {
       colDir = "l";
       shapeA.x += oX;
     } else {
       colDir = "r";
       shapeA.x -+ oX;
+      }
     }
   }
   return colDir;
