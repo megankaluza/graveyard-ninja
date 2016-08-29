@@ -1,8 +1,20 @@
+body {
+  background-color: #85929E;
+}
+
+header h1,
+h2 {
+  font-family: 'Ravi Prakash', cursive;
+  text-align: center;
+  font-size: 5em;
+}
+
 #canvas {
   /*background-color: black;*/
-  margin: 10% auto 0;
+  margin: 3% auto 10%;
   display: block;
   border: 1px solid #000;
+  background-image: url("../img/BG.png");
 }
 #testSprite {
   width: 29px;

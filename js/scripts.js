@@ -9,8 +9,8 @@
 
 var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
-    width = 800,
-    height = 600,
+    width = 1889,
+    height = 1080,
     player = {
       x : width/2,
       y : height - 5,
@@ -110,7 +110,7 @@ function update(){
   player.velY += gravity;
 
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "#85929E";
   ctx.beginPath();
 
   player.grounded = false;
