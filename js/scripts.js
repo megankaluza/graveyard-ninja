@@ -13,18 +13,18 @@ var canvas = document.getElementById("canvas"),
     height = 1080,
     player = {
       x : width/2,
-      y : height - 5,
-      width : 29,
-      height : 50,
-      speed: 3,
+      y : height - 100,
+      width : 48,
+      height : 100,
+      speed: 20,
       velX: 0,
       velY: 0,
       jumping: false,
       grounded: false
     },
     keys = [],
-    friction = 0.8,
-    gravity = 0.3;
+    friction = 0.9,
+    gravity = 0.4;
 
 var boxes = [];
 //dimensions
@@ -67,15 +67,15 @@ boxes.push({
     height: 10
 });
 boxes.push({
-    x: 250,
-    y: 510,
+    x: 850,
+    y: 870,
     width: 200,
     height: 10
 });
 boxes.push({
     x: 180,
-    y: 370,
-    width: 280,
+    y: 970,
+    width: 480,
     height: 40
 });
 
@@ -90,7 +90,7 @@ function update(){
     if(!player.jumping && player.grounded){
       player.jumping = true;
       player.grounded = false;
-      player.velY = -player.speed*2;
+      player.velY = -player.speed*0.5;
     }
   }
   if (keys[39] || keys[68]) {
