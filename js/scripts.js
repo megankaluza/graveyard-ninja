@@ -1,7 +1,11 @@
 (function() {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+  var requestAnimationFrame =
+    window.requestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
-})();
+  })();
 
   var canvas = document.getElementById("canvas"),
       ctx = canvas.getContext("2d"),
@@ -21,17 +25,8 @@
       friction = 0.8,
       gravity = 0.3;
 
-
-document.body.addEventListener("keydown", function(e){
-  keys[e.keyCode] = true;
-});
-
-document.body.addEventListener("keyup", function(e){
-  keys[e.keyCode] = false;
-});
-
-  canvas.width = width;
-  canvas.height = height;
+canvas.width = width;
+canvas.height = height;
 
 function update(){
   //check keys
@@ -71,13 +66,19 @@ function update(){
   player.velX *= friction;
   player.velY += gravity;
 
-
-
   ctx.clearRect(0, 0, width, height);
   ctx.fillStyle = "pink";
   ctx.fillRect(player.x, player.y, player.width, player.height);
   requestAnimationFrame(update);
 };
+
+document.body.addEventListener("keydown", function(e){
+  keys[e.keyCode] = true;
+});
+
+document.body.addEventListener("keyup", function(e){
+  keys[e.keyCode] = false;
+});
 
 window.addEventListener("load", function(){
   update();
