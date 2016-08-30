@@ -19,6 +19,10 @@ var height = 1080;
 
 canvas.width = width;
 canvas.height = height;
+
+var audio_jump = new Audio('sfx/jump.wav');
+// var music = new Audio('sfx/horrorMusic.wav');
+
 //////// not front end because nubs, but should be....
 
 var friction = 0.75;
@@ -32,10 +36,10 @@ var ledges_5 = [];
 var player = {
   x : width / 2,
   y : height - 100,
-  width : 100,
-  height : 136,
-  maxSpeed: 8,
-  jumpHeight: 12,
+  width : 50,
+  height : 68,
+  maxSpeed: 6,
+  jumpHeight: 11,
   velX: 0,
   velY: 0,
   jumping: false,
@@ -129,6 +133,8 @@ function getInput(){
       player.jumping = true;
       player.grounded = false;
       player.velY = -player.jumpHeight;
+      audio_jump.volume = 0.2;
+      audio_jump.play();
     }
   }
 
@@ -166,7 +172,7 @@ function movePlayer(){
       else {
         player.sprite.pos = [10,450];
       }
-      // player.sprite.once = false;
+      player.sprite.once = false;
     }
   }
   else {
@@ -177,7 +183,7 @@ function movePlayer(){
       else {
         player.sprite.pos = [1,600];
       }
-      // player.sprite.once = false;
+      player.sprite.once = false;
     }
   }
   player.x += player.velX;
@@ -193,7 +199,7 @@ function movePlayer(){
       else {
         player.sprite.pos = [0,750];
       }
-    // player.sprite.once = true;
+    player.sprite.once = true;
   }
   player.y += player.velY;
 }
@@ -332,6 +338,7 @@ $(document).ready(function(){
   initializeNewLedge3();
   initializeNewLedge5();
   update();
+  $("#musicPlayer").play;
 });
 
 $("body").keydown(function(event){
