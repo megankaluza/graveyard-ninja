@@ -1,188 +1,190 @@
+// Back-End
+
 (function() {
   var requestAnimationFrame =
     window.requestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.msRequestAnimationFrame;
-    window.requestAnimationFrame = requestAnimationFrame;
-  })();
+  window.requestAnimationFrame = requestAnimationFrame;
+})();
 
-var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    width = 1889,
-    height = 1080,
-    player = {
-      x : width/2,
-      y : height - 100,
-      width : 48,
-      height : 100,
-      speed: 20,
-      velX: 0,
-      velY: 0,
-      jumping: false,
-      grounded: false
-    },
-    keys = [],
-    friction = 0.9,
-    gravity = 0.4;
-
-var boxes = [];
-//dimensions
-boxes.push({
-  x: 0,
-  y:0,
-  width: 10,
-  height: height
-});
-boxes.push({
-  x: 0,
-
-  y: height - 2,
-  width: width,
-  height: 50
-
-});
-boxes.push({
-  x: width - 10,
-  y: 0,
-  width: 50,
-  height: height
-});
-boxes.push({
-    x: 60,
-    y: 550,
-    width: 120,
-    height: 80
-});
-boxes.push({
-    x: 50,
-    y: 450,
-    width: 60,
-    height: 20
-});
-boxes.push({
-    x: 180,
-    y: 470,
-    width: 280,
-    height: 10
-});
-boxes.push({
-    x: 850,
-    y: 870,
-    width: 200,
-    height: 10
-});
-boxes.push({
-    x: 180,
-    y: 970,
-    width: 480,
-    height: 40
-});
+//////// not front end because nubs, but should be....
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var width = 1889;
+var height = 1080;
 
 canvas.width = width;
 canvas.height = height;
+//////// not front end because nubs, but should be....
+
+var friction = 0.75;
+var gravity = 0.5;
+var keys = [];
+var boxes = [];
+var player = {
+  x : width / 2,
+  y : height - 100,
+  width : 48,
+  height : 100,
+  maxSpeed: 8,
+  jumpHeight: 12,
+  velX: 0,
+  velY: 0,
+  jumping: false,
+  grounded: false,
+  receivingHInput: false
+};
+
+Box = function (_x,_y,_width,_height) {
+  this.x = _x;
+  this.y = _y;
+  this.width = _width;
+  this.height = _height;
+};
+
+function initializeBoxes() {
+  boxes.push(new Box(0, height-10, width, 10)); // floor
+  boxes.push(new Box(0, 0, 10, height)); // left wall
+  boxes.push(new Box(width-10, 0, 10, height)); // right wall
+
+  boxes.push(new Box(50, 450, 60, 20));
+  boxes.push(new Box(180, 470, 280, 10));
+  boxes.push(new Box(850, 870, 200, 10));
+  boxes.push(new Box(180, 970, 480, 40));
+}
 
 function update(){
-  //check keys
-  if (keys[38] || keys[32] || keys[87]) {
-    //up arrow or space
+  getInput();
+  movePlayer();
+  detectCollisions();
+  render();
+  requestAnimationFrame(update);
+}
 
+function getInput(){
+  if (keys[38] || keys[32] || keys[87]) { // vertical
+    //38 === up arrow; 32 === spacebar; 87 === w
     if(!player.jumping && player.grounded){
       player.jumping = true;
       player.grounded = false;
-      player.velY = -player.speed*0.5;
-    }
-  }
-  if (keys[39] || keys[68]) {
-    //right arrow
-    if (player.velX < player.speed) {
-      player.velX++;
-    }
-  }
-  if (keys[37] || keys[65]) {
-    //left arrow
-    if (player.velX > -player.speed) {
-      player.velX--;
+      player.velY = -player.jumpHeight;
     }
   }
 
-  player.velX *= friction;
-  player.velY += gravity;
-
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#85929E";
-  ctx.beginPath();
-
-  player.grounded = false;
-  for(var i = 0; i < boxes.length; i++) {
-    ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
-    var dir = colCheck(player, boxes[i]);
-    if (dir === "l" || dir === "r") {
-      player.velX = 0;
-      player.jumping =  false;
-    } else if (dir === "b") {
-      player.grounded = true;
-      player.jumping = false;
-    } else if  (dir === "t") {
-      player.velY *= -1;
+  if (keys[39] || keys[68] || keys[37] || keys[65]) { // horizontal
+    //38 === right arrow; 32 === d; 37 === left arrow; 65 === a;
+    if(keys[39] || keys[68]) { // if right
+      if (player.velX < player.maxSpeed) {
+        player.velX++;
+      }
     }
+    else { // if left
+      if (player.velX > -player.maxSpeed) {
+        player.velX--;
+      }
+    }
+    player.receivingHInput = true;
   }
+  else {
+    player.receivingHInput = false;
+  }
+}
+
+function movePlayer(){
+  if(!player.receivingHInput){
+    player.velX *= friction;
+  }
+  if(Math.abs(player.velX) < 0.2){
+    player.velX = 0;
+  }
+  player.x += player.velX;
 
   if (player.grounded) {
     player.velY = 0;
   }
-
-  player.x += player.velX;
+  else {
+    player.velY += gravity;
+  }
   player.y += player.velY;
-
-  ctx.fill();
-
-
-
-  ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
-
-  requestAnimationFrame(update);
 }
 
-function colCheck(shapeA, shapeB) {
-  var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
-      vY = (shapeA.y +(shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
-      hWidths = (shapeA.width / 2) + (shapeB.width / 2),
-      hHeights = (shapeA.height / 2) + (shapeB.height / 2),
-      colDir = null;
+function detectCollisions(){
+  for(var i = 0; i < boxes.length; i++) {
+    var dir = colCheck(player, boxes[i]);
+    if (dir === "l" || dir === "r") {
+      player.velX = 0;
+    } else if (dir === "b") {
+      player.grounded = true;
+      player.jumping = false;
+    } else if  (dir === "t") {
+      player.velY *= -0.5;
+    }
+  }
+}
+
+function colCheck(_shapeA, _shapeB) {
+  var vX = (_shapeA.x + (_shapeA.width / 2)) - (_shapeB.x + (_shapeB.width / 2));
+  var vY = (_shapeA.y +(_shapeA.height / 2)) - (_shapeB.y + (_shapeB.height / 2));
+  var hWidths = (_shapeA.width / 2) + (_shapeB.width / 2);
+  var hHeights = (_shapeA.height / 2) + (_shapeB.height / 2);
+  var colDir = null;
 
   if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
-    var oX = hWidths - Math.abs(vX),
-        oY = hHeights - Math.abs(vY);
-        if (oX >= oY) {
-          if (vY > 0) {
-              colDir = "t";
-              shapeA.y += oY;
-          } else {
-              colDir = "b";
-              shapeA.y -= oY;
-          }
-      } else {
-    if (vX > 0) {
-      colDir = "l";
-      shapeA.x += oX;
-    } else {
-      colDir = "r";
-      shapeA.x -+ oX;
+    var oX = hWidths - Math.abs(vX);
+    var oY = hHeights - Math.abs(vY);
+    if (oX >= oY) {
+      if (vY > 0) {
+        colDir = "t";
+        _shapeA.y += oY;
+      }
+      else {
+        colDir = "b";
+        _shapeA.y -= oY;
+      }
+    }
+    else {
+      if (vX > 0) {
+        colDir = "l";
+        _shapeA.x += oX;
+      }
+      else {
+        colDir = "r";
+        _shapeA.x -+ oX;
       }
     }
   }
+
   return colDir;
 }
 
-document.body.addEventListener("keydown", function(e){
-  keys[e.keyCode] = true;
-});
 
-document.body.addEventListener("keyup", function(e){
-  keys[e.keyCode] = false;
-});
 
-window.addEventListener("load", function(){
+// Front-End //
+
+function render() {
+  //clears previous frame (whole canvas)
+  ctx.clearRect(0, 0, width, height);
+  ctx.beginPath(); // DO NOT REMOVE
+  // redraws static elements
+  for(var i = 0; i < boxes.length; i++) {
+    ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+  }
+  ctx.fillStyle = "#85929E";
+  ctx.fill();
+  // redraws character
+  ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
+}
+
+$(document).ready(function(){
+  initializeBoxes();
   update();
+});
+
+$("body").keydown(function(event){
+  keys[event.keyCode] = true;
+});
+$("body").keyup(function(event){
+  keys[event.keyCode] = false;
 });
