@@ -23,6 +23,7 @@ var friction = 0.75;
 var gravity = 0.5;
 var keys = [];
 var boxes = [];
+var crates = [];
 var player = {
   x : width / 2,
   y : height - 100,
@@ -44,6 +45,13 @@ Box = function (_x,_y,_width,_height) {
   this.height = _height;
 };
 
+NewCrate = function (_x,_y,_width,_height) {
+  this.x = _x;
+  this.y = _y;
+  this.width = _width;
+  this.height = _height;
+};
+
 function initializeBoxes() {
   boxes.push(new Box(0, height-10, width, 10)); // floor
   boxes.push(new Box(0, 0, 10, height)); // left wall
@@ -53,6 +61,10 @@ function initializeBoxes() {
   boxes.push(new Box(180, 470, 280, 10));
   boxes.push(new Box(850, 870, 200, 10));
   boxes.push(new Box(180, 970, 480, 40));
+}
+
+function initializeNewCrates() {
+  crates.push(new NewCrate(1200, 940, 130, 130));
 }
 
 function update(){
@@ -122,6 +134,17 @@ function detectCollisions(){
       player.velY *= -0.5;
     }
   }
+  for(var i = 0; i < crates.length; i++) {
+    var dir = colCheck(player, crates[i]);
+    if (dir === "l" || dir === "r") {
+      player.velX = 0;
+    } else if (dir === "b") {
+      player.grounded = true;
+      player.jumping = false;
+    } else if  (dir === "t") {
+      player.velY *= -0.5;
+    }
+  }
 }
 
 function colCheck(_shapeA, _shapeB) {
@@ -171,14 +194,21 @@ function render() {
   for(var i = 0; i < boxes.length; i++) {
     ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
   }
+  for(var i = 0; i < crates.length; i++) {
+    // ctx.rect(crates[i].x, crates[i].y, crates[i].width, crates[i].height);
+    var crate = document.getElementById("crate");
+    ctx.drawImage(crate, crates[i].x, crates[i].y, crates[i].width, crates[i].height);
+  }
   ctx.fillStyle = "#85929E";
   ctx.fill();
   // redraws character
   ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
+
 }
 
 $(document).ready(function(){
   initializeBoxes();
+  initializeNewCrates();
   update();
 });
 
