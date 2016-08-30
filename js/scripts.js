@@ -9,6 +9,8 @@
   window.requestAnimationFrame = requestAnimationFrame;
 })();
 
+var lastTime;
+
 //////// not front end because nubs, but should be....
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -34,7 +36,8 @@ var player = {
   velY: 0,
   jumping: false,
   grounded: false,
-  receivingHInput: false
+  receivingHInput: false,
+  sprite: new Sprite('sprites/ninjaGirl_jumpCycle.png', [0, 0], [100, 136], 25, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "horizontal", false)
 };
 
 Box = function (_x,_y,_width,_height) {
@@ -56,10 +59,19 @@ function initializeBoxes() {
 }
 
 function update(){
+  var now = Date.now();
+  var dt = (now - lastTime) / 1000.0;
+
   getInput();
   movePlayer();
   detectCollisions();
   render();
+
+  player.sprite.update(dt);
+  player.sprite.render(ctx);
+
+  lastTime = now;
+
   requestAnimationFrame(update);
 }
 
@@ -101,11 +113,9 @@ function movePlayer(){
   }
   player.x += player.velX;
 
+  player.velY += gravity;
   if (player.grounded) {
     player.velY = 0;
-  }
-  else {
-    player.velY += gravity;
   }
   player.y += player.velY;
 }
@@ -174,7 +184,7 @@ function render() {
   ctx.fillStyle = "#85929E";
   ctx.fill();
   // redraws character
-  ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
+  // ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
 }
 
 $(document).ready(function(){
