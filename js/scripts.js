@@ -34,12 +34,12 @@ var ledges_2 = [];
 var ledges_3 = [];
 var ledges_5 = [];
 var player = {
-  x : width / 2,
-  y : height - 100,
-  width : 50,
-  height : 68,
-  maxSpeed: 6,
-  jumpHeight: 11,
+  x: 30,
+  y : 50,
+  width : 100 * .8,
+  height : 136 * .8,
+  maxSpeed: 8,
+  jumpHeight: 12,
   velX: 0,
   velY: 0,
   jumping: false,
@@ -48,6 +48,8 @@ var player = {
   facingRight: true,
   sprite: new Sprite('sprites/ninjaGirl_spriteSheet.png', [10, 0], [100, 136], 25, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "horizontal", false)
 };
+
+console.log(player);
 
 Box = function (_x,_y,_width,_height) {
   this.x = _x;
@@ -91,22 +93,29 @@ function initializeBoxes() {
 }
 
 function initializeNewCrates() {
-  crates.push(new NewCrate((1300 - 160), 990, 80, 80));
-  crates.push(new NewCrate((1380 - 160), 990, 80, 80));
-  crates.push(new NewCrate((1460 - 160), 990, 80, 80));
-  crates.push(new NewCrate((1460 - 160), 910, 80, 80));
+  crates.push(new NewCrate((230), 990, 80, 80));
+  crates.push(new NewCrate((1380 - 360), 910, 80, 80));
+  crates.push(new NewCrate((1380 - 360), 990, 80, 80));
+  crates.push(new NewCrate((1460 - 360), 990, 80, 80));
+  crates.push(new NewCrate((1460 - 360), 910, 80, 80));
+
+  crates.push(new NewCrate((1380 - 860), 910, 80, 80));
+  crates.push(new NewCrate((1380 - 860), 990, 80, 80));
+  crates.push(new NewCrate((1460 - 860), 990, 80, 80));
+  crates.push(new NewCrate((1460 - 860), 910, 80, 80));
 }
 
 function initializeNewLedge2() {
-  ledges_2.push(new NewLedge2(1450, 850, 384, 55));//384pz 93px
+  ledges_2.push(new NewLedge2(525, 655, 180, 55));//384pz 93px
+  ledges_2.push(new NewLedge2(775, 775, 210, 55));
 }
 
 function initializeNewLedge3() {
-  ledges_3.push(new NewLedge3(550, 940, 384, 55));//384pz 93px
+//  ledges_3.push(new NewLedge3(550, 940, 384, 55));  //384pz 93px
 }
 
 function initializeNewLedge5() {
-  ledges_5.push(new NewLedge5(30, 810, 640, 55));//640px 93px
+  // ledges_5.push(new NewLedge5(30, 810, 640, 55));  //640px 93px
 }
 
 function update(){
@@ -347,3 +356,10 @@ $("body").keydown(function(event){
 $("body").keyup(function(event){
   keys[event.keyCode] = false;
 });
+
+window.addEventListener("keydown", function(event) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+        event.preventDefault();
+    }
+}, false);
