@@ -29,8 +29,8 @@ var crates = [];
 var player = {
   x : width / 2,
   y : height - 100,
-  width : 48,
-  height : 100,
+  width : 100,
+  height : 136,
   maxSpeed: 8,
   jumpHeight: 12,
   velX: 0,
@@ -38,7 +38,8 @@ var player = {
   jumping: false,
   grounded: false,
   receivingHInput: false,
-  sprite: new Sprite('sprites/ninjaGirl_jumpCycle.png', [0, 0], [100, 136], 25, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "horizontal", false)
+  facingRight: true,
+  sprite: new Sprite('sprites/ninjaGirl_spriteSheet.png', [10, 0], [100, 136], 25, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "horizontal", false)
 };
 
 Box = function (_x,_y,_width,_height) {
@@ -102,11 +103,13 @@ function getInput(){
     if(keys[39] || keys[68]) { // if right
       if (player.velX < player.maxSpeed) {
         player.velX++;
+        player.facingRight = true;
       }
     }
     else { // if left
       if (player.velX > -player.maxSpeed) {
         player.velX--;
+        player.facingRight = false;
       }
     }
     player.receivingHInput = true;
@@ -122,12 +125,41 @@ function movePlayer(){
   }
   if(Math.abs(player.velX) < 0.2){
     player.velX = 0;
+    if(player.grounded) {
+      if(player.facingRight) {
+        player.sprite.pos = [10,0];
+      }
+      else {
+        player.sprite.pos = [10,450];
+      }
+      // player.sprite.once = false;
+    }
+  }
+  else {
+    if(player.grounded) {
+      if(player.facingRight) {
+        player.sprite.pos = [1,150];
+      }
+      else {
+        player.sprite.pos = [1,600];
+      }
+      // player.sprite.once = false;
+    }
   }
   player.x += player.velX;
 
   player.velY += gravity;
   if (player.grounded) {
     player.velY = 0;
+  }
+  else {
+      if(player.facingRight) {
+        player.sprite.pos = [0,300];
+      }
+      else {
+        player.sprite.pos = [0,750];
+      }
+    // player.sprite.once = true;
   }
   player.y += player.velY;
 }

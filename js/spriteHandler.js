@@ -42,13 +42,24 @@ Sprite.prototype.render = function(_ctx) {
   var y = this.pos[1];
 
   if(this.dir == 'vertical') {
-    y += frame * this.size[1];
+    y += frame * (this.size[1] + 14);
   }
   else {
-    x += frame * this.size[0];
+    x += frame * (this.size[0] + 20);
   }
+
+
+  if(player.facingRight){
+    // console.log("R");
+  }
+  else{
+    // console.log("L");
+  }
+
 
   _ctx.drawImage(document.getElementById("testAnim"),
                 x, y, this.size[0], this.size[1],
                 player.x, player.y, player.width, player.height);
+
+
 };
