@@ -12,6 +12,7 @@ function Sprite(url, pos, size, speed, frames, dir, once) {
   this.url = url;
   this.dir = dir || 'horizontal';
   this.once = once;
+  this.done = false;
 }
 
 Sprite.prototype.update = function(_dt) {
@@ -31,7 +32,7 @@ Sprite.prototype.render = function(_ctx) {
 
     if(this.once && idx >= max) {
       this.done = true;
-      return;
+      // return;
     }
   }
   else {
@@ -46,14 +47,6 @@ Sprite.prototype.render = function(_ctx) {
   }
   else {
     x += frame * (this.size[0] + 20);
-  }
-
-
-  if(player.facingRight){
-    // console.log("R");
-  }
-  else{
-    // console.log("L");
   }
 
 
