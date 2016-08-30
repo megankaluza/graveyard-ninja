@@ -24,6 +24,9 @@ var gravity = 0.5;
 var keys = [];
 var boxes = [];
 var crates = [];
+var ledges_2 = [];
+var ledges_3 = [];
+var ledges_5 = [];
 var player = {
   x : width / 2,
   y : height - 100,
@@ -52,19 +55,50 @@ NewCrate = function (_x,_y,_width,_height) {
   this.height = _height;
 };
 
+NewLedge2 = function (_x,_y,_width,_height) {
+  this.x = _x;
+  this.y = _y;
+  this.width = _width;
+  this.height = _height;
+};
+
+NewLedge3 = function (_x,_y,_width,_height) {
+  this.x = _x;
+  this.y = _y;
+  this.width = _width;
+  this.height = _height;
+};
+
+NewLedge5 = function (_x,_y,_width,_height) {
+  this.x = _x;
+  this.y = _y;
+  this.width = _width;
+  this.height = _height;
+};
+
 function initializeBoxes() {
   boxes.push(new Box(0, height-10, width, 10)); // floor
   boxes.push(new Box(0, 0, 10, height)); // left wall
   boxes.push(new Box(width-10, 0, 10, height)); // right wall
-
-  boxes.push(new Box(50, 450, 60, 20));
-  boxes.push(new Box(180, 470, 280, 10));
-  boxes.push(new Box(850, 870, 200, 10));
-  boxes.push(new Box(180, 970, 480, 40));
 }
 
 function initializeNewCrates() {
-  crates.push(new NewCrate(1200, 940, 130, 130));
+  crates.push(new NewCrate((1300 - 160), 990, 80, 80));
+  crates.push(new NewCrate((1380 - 160), 990, 80, 80));
+  crates.push(new NewCrate((1460 - 160), 990, 80, 80));
+  crates.push(new NewCrate((1460 - 160), 910, 80, 80));
+}
+
+function initializeNewLedge2() {
+  ledges_2.push(new NewLedge2(1450, 850, 384, 55));//384pz 93px
+}
+
+function initializeNewLedge3() {
+  ledges_3.push(new NewLedge3(550, 940, 384, 55));//384pz 93px
+}
+
+function initializeNewLedge5() {
+  ledges_5.push(new NewLedge5(30, 810, 640, 55));//640px 93px
 }
 
 function update(){
@@ -145,6 +179,39 @@ function detectCollisions(){
       player.velY *= -0.5;
     }
   }
+  for(var i = 0; i < ledges_2.length; i++) {
+    var dir = colCheck(player, ledges_2[i]);
+    if (dir === "l" || dir === "r") {
+      player.velX = 0;
+    } else if (dir === "b") {
+      player.grounded = true;
+      player.jumping = false;
+    } else if  (dir === "t") {
+      player.velY *= -0.5;
+    }
+  }
+  for(var i = 0; i < ledges_3.length; i++) {
+    var dir = colCheck(player, ledges_3[i]);
+    if (dir === "l" || dir === "r") {
+      player.velX = 0;
+    } else if (dir === "b") {
+      player.grounded = true;
+      player.jumping = false;
+    } else if  (dir === "t") {
+      player.velY *= -0.5;
+    }
+  }
+  for(var i = 0; i < ledges_5.length; i++) {
+    var dir = colCheck(player, ledges_5[i]);
+    if (dir === "l" || dir === "r") {
+      player.velX = 0;
+    } else if (dir === "b") {
+      player.grounded = true;
+      player.jumping = false;
+    } else if  (dir === "t") {
+      player.velY *= -0.5;
+    }
+  }
 }
 
 function colCheck(_shapeA, _shapeB) {
@@ -183,9 +250,7 @@ function colCheck(_shapeA, _shapeB) {
 }
 
 
-
 // Front-End //
-
 function render() {
   //clears previous frame (whole canvas)
   ctx.clearRect(0, 0, width, height);
@@ -195,9 +260,20 @@ function render() {
     ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
   }
   for(var i = 0; i < crates.length; i++) {
-    // ctx.rect(crates[i].x, crates[i].y, crates[i].width, crates[i].height);
     var crate = document.getElementById("crate");
     ctx.drawImage(crate, crates[i].x, crates[i].y, crates[i].width, crates[i].height);
+  }
+  for(var i = 0; i < ledges_2.length; i++) {
+    var ledge2 = document.getElementById("ledge2");
+    ctx.drawImage(ledge2, ledges_2[i].x, ledges_2[i].y, ledges_2[i].width, ledges_2[i].height);
+  }
+  for(var i = 0; i < ledges_3.length; i++) {
+    var ledge3 = document.getElementById("ledge3");
+    ctx.drawImage(ledge3, ledges_3[i].x, ledges_3[i].y, ledges_3[i].width, ledges_3[i].height);
+  }
+  for(var i = 0; i < ledges_5.length; i++) {
+    var ledge5 = document.getElementById("ledge5");
+    ctx.drawImage(ledge5, ledges_5[i].x, ledges_5[i].y, ledges_5[i].width, ledges_5[i].height);
   }
   ctx.fillStyle = "#85929E";
   ctx.fill();
@@ -209,6 +285,9 @@ function render() {
 $(document).ready(function(){
   initializeBoxes();
   initializeNewCrates();
+  initializeNewLedge2();
+  initializeNewLedge3();
+  initializeNewLedge5();
   update();
 });
 
