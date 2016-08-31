@@ -32,6 +32,8 @@ var boxes = [];
 var crates = [];
 var ledges_2 = [];
 var deathTriggers = [];
+var winTrigger;
+var gameOver = false;
 var player = {
   x: 40,
   y : 50,
@@ -59,9 +61,10 @@ Object = function (_x,_y,_width,_height) {
 function initializeLevel() {
   // boundaries
   boxes.push(new Object(0, height-10, width/2, 10)); // floor
-  deathTriggers.push(new Object(width/2, height-10, width/2, 10)); // DEATH floor
+  deathTriggers.push(new Object(width/2, height+136, width/2, 10)); // DEATH floor
   boxes.push(new Object(0, 0, 10, height)); // left wall
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
+  winTrigger = new Object(525,555,180,100);
 
   //crates
   crates.push(new Object((230), 990, 80, 80));
@@ -196,16 +199,32 @@ function detectCollisions(){
   }
 }
 
+function endGame (_win) {
+  if(!gameOver){
+    gameOver = true;
+    if (_win === true) {
+      console.log("You win!");
+    }
+    else {
+      console.log("You died!");
+    }
+  }
+}
+
 function detectTriggers () {
   for (var i = 0; i < deathTriggers.length; i++) {
     var dir = colCheck(player, deathTriggers[i], false);
     if (dir === "l" || dir === "r") {
-      console.log("Side death trigger");
+      endGame(false);
     } else if (dir === "b") {
-      console.log("Bottom death trigger");
+      endGame(false);
     } else if (dir === "t") {
-      console.log("Top death trigger");
+      endGame(false);
     }
+  }
+  var direction = colCheck(player, winTrigger, false);
+  if (direction === "l" || direction === "r" || direction === "t" || direction === "b") {
+    endGame(true);
   }
 }
 
@@ -270,10 +289,13 @@ function render() {
     var ledge2 = document.getElementById("ledge2");
     ctx.drawImage(ledge2, ledges_2[i].x, ledges_2[i].y, ledges_2[i].width, ledges_2[i].height);
   }
-  
+
   var cloud = document.getElementById("cloud");
   ctx.drawImage(cloud, 10, 10);
 
+
+
+  ctx.rect(winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
   ctx.fillStyle = "#85929E";
   ctx.fill();
 
