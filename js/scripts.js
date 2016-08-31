@@ -210,6 +210,7 @@ function movePlayer(){
       }
     player.sprite.once = true;
   }
+  player.grounded = false;
   player.y += player.velY;
 }
 
