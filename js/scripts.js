@@ -33,7 +33,7 @@ var crates = [];
 var ledges_2 = [];
 var deathTriggers = [];
 var player = {
-  x: 30,
+  x: 40,
   y : 50,
   width : 100 * .8,
   height : 136 * .8,
@@ -270,8 +270,14 @@ function render() {
     var ledge2 = document.getElementById("ledge2");
     ctx.drawImage(ledge2, ledges_2[i].x, ledges_2[i].y, ledges_2[i].width, ledges_2[i].height);
   }
+  
+  var cloud = document.getElementById("cloud");
+  ctx.drawImage(cloud, 10, 10);
+
   ctx.fillStyle = "#85929E";
   ctx.fill();
+
+
   // redraws character
 
   // ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
