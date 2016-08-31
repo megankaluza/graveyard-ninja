@@ -67,21 +67,26 @@ function initializeLevel() {
   winTrigger = new Object(525,555,180,100);
 
   //crates
-  crates.push(new Object((230), 990, 80, 80));
+  // crates.push(new Object((230), 990, 80, 80));
 
-  crates.push(new Object((1380 - 360), 910, 80, 80));
-  crates.push(new Object((1380 - 360), 990, 80, 80));
-  crates.push(new Object((1460 - 360), 990, 80, 80));
-  crates.push(new Object((1460 - 360), 910, 80, 80));
+  // crates.push(new Object((1380 - 220), 935, 60, 60)); //1
+  // crates.push(new Object((1460 - 240), 935, 60, 60)); //2
+  // crates.push(new Object((1380 - 220), 985, 60, 60)); //3
+  // crates.push(new Object((1460 - 240), 985, 60, 60)); //4
 
-  crates.push(new Object((1380 - 860), 910, 80, 80));
-  crates.push(new Object((1380 - 860), 990, 80, 80));
-  crates.push(new Object((1460 - 860), 990, 80, 80));
-  crates.push(new Object((1460 - 860), 910, 80, 80));
+
+
+  crates.push(new Object((1380 - 960), 910, 60, 60)); //1
+  crates.push(new Object((1460 - 980), 910, 60, 60)); //2
+  crates.push(new Object((1380 - 960), 970, 60, 60)); //3
+  crates.push(new Object((1460 - 980), 970, 60, 60)); //4
 
   //ledges
-  ledges_2.push(new Object(525, 655, 180, 55));//384pz 93px
-  ledges_2.push(new Object(775, 775, 210, 55));
+  // ledges_2.push(new Object(525, 655, 180, 55)); //384pz 93px
+  // ledges_2.push(new Object(775, 775, 210, 55));
+
+  //starting grounded
+  ground_level.push(new Object(0, 1030, 545, 55));
 }
 
 function update(){
@@ -182,7 +187,7 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  var allObjects = [boxes, crates, ledges_2];
+  var allObjects = [boxes, crates, ledges_2, ground_level];
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
