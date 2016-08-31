@@ -9,6 +9,10 @@ h2 {
   font-size: 5em;
 }
 
+.graphics {
+  display: none;
+}
+
 #canvas {
   /*background-color: black;*/
   margin: 3% auto 10%;
@@ -16,6 +20,7 @@ h2 {
   border: 1px solid #000;
   background-image: url("../img/BG.png");
 }
+
 #testSprite {
   width: 29px;
 }
