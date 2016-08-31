@@ -24,3 +24,7 @@ h2 {
 #testSprite {
   width: 29px;
 }
+
+#hidden {
+  display: none;
+}
