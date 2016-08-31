@@ -39,7 +39,7 @@ var player = {
   width : 100 * .8,
   height : 136 * .8,
   maxSpeed: 8,
-  jumpHeight: 12,
+  jumpHeight: 15,
   velX: 0,
   velY: 0,
   jumping: false,
@@ -51,71 +51,37 @@ var player = {
 
 console.log(player);
 
-Box = function (_x,_y,_width,_height) {
+Object = function (_x,_y,_width,_height) {
   this.x = _x;
   this.y = _y;
   this.width = _width;
   this.height = _height;
 };
 
-NewCrate = function (_x,_y,_width,_height) {
-  this.x = _x;
-  this.y = _y;
-  this.width = _width;
-  this.height = _height;
-};
 
-NewLedge2 = function (_x,_y,_width,_height) {
-  this.x = _x;
-  this.y = _y;
-  this.width = _width;
-  this.height = _height;
-};
+function initializeLevel() {
+  // boundaries
+  boxes.push(new Object(0, height-10, width/2, 10)); // floor
+  boxes.push(new Object(width/2, height-8, width/2, 8)); // DEATH floor
+  boxes.push(new Object(0, 0, 10, height)); // left wall
+  boxes.push(new Object(width-10, 0, 10, height)); // right wall
 
-NewLedge3 = function (_x,_y,_width,_height) {
-  this.x = _x;
-  this.y = _y;
-  this.width = _width;
-  this.height = _height;
-};
+  //crates
+  crates.push(new Object((230), 990, 80, 80));
 
-NewLedge5 = function (_x,_y,_width,_height) {
-  this.x = _x;
-  this.y = _y;
-  this.width = _width;
-  this.height = _height;
-};
+  crates.push(new Object((1380 - 360), 910, 80, 80));
+  crates.push(new Object((1380 - 360), 990, 80, 80));
+  crates.push(new Object((1460 - 360), 990, 80, 80));
+  crates.push(new Object((1460 - 360), 910, 80, 80));
 
-function initializeBoxes() {
-  boxes.push(new Box(0, height-10, width, 10)); // floor
-  boxes.push(new Box(0, 0, 10, height)); // left wall
-  boxes.push(new Box(width-10, 0, 10, height)); // right wall
-}
+  crates.push(new Object((1380 - 860), 910, 80, 80));
+  crates.push(new Object((1380 - 860), 990, 80, 80));
+  crates.push(new Object((1460 - 860), 990, 80, 80));
+  crates.push(new Object((1460 - 860), 910, 80, 80));
 
-function initializeNewCrates() {
-  crates.push(new NewCrate((230), 990, 80, 80));
-  crates.push(new NewCrate((1380 - 360), 910, 80, 80));
-  crates.push(new NewCrate((1380 - 360), 990, 80, 80));
-  crates.push(new NewCrate((1460 - 360), 990, 80, 80));
-  crates.push(new NewCrate((1460 - 360), 910, 80, 80));
-
-  crates.push(new NewCrate((1380 - 860), 910, 80, 80));
-  crates.push(new NewCrate((1380 - 860), 990, 80, 80));
-  crates.push(new NewCrate((1460 - 860), 990, 80, 80));
-  crates.push(new NewCrate((1460 - 860), 910, 80, 80));
-}
-
-function initializeNewLedge2() {
-  ledges_2.push(new NewLedge2(525, 655, 180, 55));//384pz 93px
-  ledges_2.push(new NewLedge2(775, 775, 210, 55));
-}
-
-function initializeNewLedge3() {
-//  ledges_3.push(new NewLedge3(550, 940, 384, 55));  //384pz 93px
-}
-
-function initializeNewLedge5() {
-  // ledges_5.push(new NewLedge5(30, 810, 640, 55));  //640px 93px
+  //ledges
+  ledges_2.push(new Object(525, 655, 180, 55));//384pz 93px
+  ledges_2.push(new Object(775, 775, 210, 55));
 }
 
 function update(){
@@ -215,59 +181,19 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  for(var i = 0; i < boxes.length; i++) {
-    var dir = colCheck(player, boxes[i]);
-    if (dir === "l" || dir === "r") {
-      player.velX = 0;
-    } else if (dir === "b") {
-      player.grounded = true;
-      player.jumping = false;
-    } else if  (dir === "t") {
-      player.velY *= -0.5;
-    }
-  }
-  for(var i = 0; i < crates.length; i++) {
-    var dir = colCheck(player, crates[i]);
-    if (dir === "l" || dir === "r") {
-      player.velX = 0;
-    } else if (dir === "b") {
-      player.grounded = true;
-      player.jumping = false;
-    } else if  (dir === "t") {
-      player.velY *= -0.5;
-    }
-  }
-  for(var i = 0; i < ledges_2.length; i++) {
-    var dir = colCheck(player, ledges_2[i]);
-    if (dir === "l" || dir === "r") {
-      player.velX = 0;
-    } else if (dir === "b") {
-      player.grounded = true;
-      player.jumping = false;
-    } else if  (dir === "t") {
-      player.velY *= -0.5;
-    }
-  }
-  for(var i = 0; i < ledges_3.length; i++) {
-    var dir = colCheck(player, ledges_3[i]);
-    if (dir === "l" || dir === "r") {
-      player.velX = 0;
-    } else if (dir === "b") {
-      player.grounded = true;
-      player.jumping = false;
-    } else if  (dir === "t") {
-      player.velY *= -0.5;
-    }
-  }
-  for(var i = 0; i < ledges_5.length; i++) {
-    var dir = colCheck(player, ledges_5[i]);
-    if (dir === "l" || dir === "r") {
-      player.velX = 0;
-    } else if (dir === "b") {
-      player.grounded = true;
-      player.jumping = false;
-    } else if  (dir === "t") {
-      player.velY *= -0.5;
+  var allObjects = [boxes, crates, ledges_2];
+
+  for(var index = 0; index < allObjects.length; index++){
+    for(var i = 0; i < allObjects[index].length; i++) {
+      var dir = colCheck(player, allObjects[index][i]);
+      if (dir === "l" || dir === "r") {
+        player.velX = 0;
+      } else if (dir === "b") {
+        player.grounded = true;
+        player.jumping = false;
+      } else if  (dir === "t") {
+        player.velY *= -0.5;
+      }
     }
   }
 }
@@ -342,11 +268,7 @@ function render() {
 }
 
 $(document).ready(function(){
-  initializeBoxes();
-  initializeNewCrates();
-  initializeNewLedge2();
-  initializeNewLedge3();
-  initializeNewLedge5();
+  initializeLevel();
   update();
   $("#musicPlayer").play;
 });
@@ -359,8 +281,8 @@ $("body").keyup(function(event){
 });
 
 window.addEventListener("keydown", function(event) {
-    // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
-        event.preventDefault();
-    }
+  // space and arrow keys
+  if([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+      event.preventDefault();
+  }
 }, false);
