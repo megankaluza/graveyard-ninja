@@ -31,6 +31,7 @@ var keys = [];
 var boxes = [];
 var crates = [];
 var ledges_2 = [];
+var ground_level = [];
 var deathTriggers = [];
 var winTrigger;
 var gameOver = false;
@@ -293,6 +294,10 @@ function render() {
   for(var i = 0; i < ledges_2.length; i++) {
     var ledge2 = document.getElementById("ledge2");
     ctx.drawImage(ledge2, ledges_2[i].x, ledges_2[i].y, ledges_2[i].width, ledges_2[i].height);
+  }
+  for(var i = 0; i < ground_level.length; i++) {
+    var ground = document.getElementById("ground");
+    ctx.drawImage(ground, ground_level[i].x, ground_level[i].y, ground_level[i].width, ground_level[i].height);
   }
 
   var cloud = document.getElementById("cloud");
