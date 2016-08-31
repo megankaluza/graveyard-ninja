@@ -21,6 +21,10 @@ canvas.width = width;
 canvas.height = height;
 
 var audio_jump = new Audio('sfx/jump.wav');
+var audio_click = new Audio('sfx/click.wav');
+var audio_die = new Audio('sfx/scream.wav');
+var audio_appear = new Audio('sfx/whoosh.wav');
+var audio_win = new Audio('sfx/kazoo.wav');
 // var music = new Audio('sfx/horrorMusic.wav');
 
 //////// not front end because nubs, but should be....
@@ -78,7 +82,7 @@ Object = function (_x,_y,_width,_height) {
 function initializeLevel() {
   // boundaries
   // boxes.push(new Object(0, height-10, width/2, 10)); // floor
-  deathTriggers.push(new Object(width/2, height+136, width/2, 10)); // DEATH floor
+  deathTriggers.push(new Object(0, height+136, width, 10)); // DEATH floor
   deathTriggers.push(new Object(580, 910, 60, 60));;
   deathTriggers.push(new Object(1020, 493, 70, 110));
   deathTriggers.push(new Object(1410, 355, (70 * .8), (130 * .8)));
@@ -385,6 +389,8 @@ function render() {
 
 $(document).ready(function(){
   $("button#startButton").click(function() {
+    audio_click.volume = 0.5;
+    audio_click.play();
     initializeLevel();
     update();
     $("#startScreen").hide();
@@ -392,19 +398,25 @@ $(document).ready(function(){
   });
 });
 
+$("button.reloadButton").click(function(){
+  location.reload();
+  audio_click.volume = 0.5;
+  audio_click.play();
+});
+
 function drawEndScreen (){
   $("#canvas").hide();
   if(won){
     $("#winScreen").css("display", "block");
+    audio_win.volume = 0.2;
+    audio_win.play();
   }
   else {
     $("#dieScreen").css("display", "block");
+    audio_die.volume = 0.2;
+    audio_die.play();
   }
 }
-
-$("button.reloadButton").click(function(){
-  location.reload();
-});
 
 $("body").keydown(function(event){
   keys[event.keyCode] = true;
