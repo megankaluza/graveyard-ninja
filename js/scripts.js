@@ -33,6 +33,7 @@ var crates = [];
 var ledges_2 = [];
 var ledges_3 = [];
 var ledges_5 = [];
+var ground_level = [];
 var player = {
   x: 40,
   y : 50,
@@ -67,21 +68,26 @@ function initializeLevel() {
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
 
   //crates
-  crates.push(new Object((230), 990, 80, 80));
+  // crates.push(new Object((230), 990, 80, 80));
 
-  crates.push(new Object((1380 - 360), 910, 80, 80));
-  crates.push(new Object((1380 - 360), 990, 80, 80));
-  crates.push(new Object((1460 - 360), 990, 80, 80));
-  crates.push(new Object((1460 - 360), 910, 80, 80));
+  // crates.push(new Object((1380 - 220), 935, 60, 60)); //1
+  // crates.push(new Object((1460 - 240), 935, 60, 60)); //2
+  // crates.push(new Object((1380 - 220), 985, 60, 60)); //3
+  // crates.push(new Object((1460 - 240), 985, 60, 60)); //4
 
-  crates.push(new Object((1380 - 860), 910, 80, 80));
-  crates.push(new Object((1380 - 860), 990, 80, 80));
-  crates.push(new Object((1460 - 860), 990, 80, 80));
-  crates.push(new Object((1460 - 860), 910, 80, 80));
+
+
+  crates.push(new Object((1380 - 960), 910, 60, 60)); //1
+  crates.push(new Object((1460 - 980), 910, 60, 60)); //2
+  crates.push(new Object((1380 - 960), 970, 60, 60)); //3
+  crates.push(new Object((1460 - 980), 970, 60, 60)); //4
 
   //ledges
-  ledges_2.push(new Object(525, 655, 180, 55));//384pz 93px
-  ledges_2.push(new Object(775, 775, 210, 55));
+  // ledges_2.push(new Object(525, 655, 180, 55)); //384pz 93px
+  // ledges_2.push(new Object(775, 775, 210, 55));
+
+  //starting grounded
+  ground_level.push(new Object(0, 1030, 545, 55));
 }
 
 function update(){
@@ -181,7 +187,7 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  var allObjects = [boxes, crates, ledges_2];
+  var allObjects = [boxes, crates, ledges_2, ground_level];
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
@@ -258,6 +264,10 @@ function render() {
   for(var i = 0; i < ledges_5.length; i++) {
     var ledge5 = document.getElementById("ledge5");
     ctx.drawImage(ledge5, ledges_5[i].x, ledges_5[i].y, ledges_5[i].width, ledges_5[i].height);
+  }
+  for(var i = 0; i < ground_level.length; i++) {
+    var ground = document.getElementById("ground");
+    ctx.drawImage(ground, ground_level[i].x, ground_level[i].y, ground_level[i].width, ground_level[i].height);
   }
   var cloud = document.getElementById("cloud");
   ctx.drawImage(cloud, 10, 10);
