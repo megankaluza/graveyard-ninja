@@ -11,8 +11,40 @@
 
   </head>
   <body>
+
+    <div id="startScreen">
+      <div class="container">
+        <h1>Graveyard Ninja:</h1><br>
+        <h2>Apocalypse!</h2>
+      </div>
+      <img id="ninjaGirl" src="img/startImage.png">
+      <button type="button" class="btn pinkButton" id="startButton">Play
+      </button>
+    </div>
+
     <canvas id="canvas">
     </canvas>
+
+    <div id="winScreen" class="endingScreen">
+      <div class="container">
+        <h1>You win!</h1>
+        <h4>You have guided Mochi to the magical kunai<br>
+        of her ancestors!</h4>
+        <button type="button" class="btn pinkButton reloadButton">Play Again
+        </button>
+      </div>
+    </div>
+
+    <div id="dieScreen" class="endingScreen">
+      <div class="container">
+        <h1>You lose.</h1>
+        <h4>You killed Mochi!<br>
+        Now she can never prevent the undead apocalypse!<br>
+        You have doomed us all!</h4>
+        <button type="button" class="btn pinkButton reloadButton">Try Again
+        </button>
+      </div>
+    </div>
 
     <audio id="musicPlayer" loop="loop" autoplay>
       <source src="sfx/ninja-peaks.mp3" type="audio/mp3">

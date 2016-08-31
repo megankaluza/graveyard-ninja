@@ -142,33 +142,6 @@ function update(){
   }
 }
 
-function drawEndScreen (){
-  ctx.clearRect(0, 0, width, height);
-  ctx.rect(200, 100, width-400, height-200);
-  if(won){
-    ctx.fillStyle = "skyblue";
-    ctx.fill();
-    ctx.fillStyle = "papayawhip";
-    ctx.font="200px Ravi Prakash";
-    ctx.fillText("You win!", 540, 400);
-    ctx.font="60px Ravi Prakash";
-    ctx.fillText("You have guided [name] to the magical kunai", 400, 600);
-    ctx.fillText("of her ancestors!", 700, 675);
-  }
-  else {
-    ctx.fillStyle = "black";
-    ctx.fill();
-    ctx.fillStyle = "crimson";
-    ctx.font="200px Ravi Prakash";
-    ctx.fillText("You lose.", 540, 400);
-    ctx.font="60px Ravi Prakash";
-    ctx.fillText("You have killed [name]!", 625, 600);
-    ctx.fillText("Now she can never prevent the undead apocalypse!", 325, 675);
-    ctx.fillText("You have doomed us all!", 620, 750);
-  }
-}
-
-
 function getInput(){
   if (keys[38] || keys[32] || keys[87]) { // vertical
     //38 === up arrow; 32 === spacebar; 87 === w
@@ -401,9 +374,26 @@ function render() {
 }
 
 $(document).ready(function(){
-  initializeLevel();
-  update();
-  $("#musicPlayer").play;
+  $("button#startButton").click(function() {
+    initializeLevel();
+    update();
+    $("#startScreen").hide();
+    $("canvas#canvas").show();
+  });
+});
+
+function drawEndScreen (){
+  $("#canvas").hide();
+  if(won){
+    $("#winScreen").show();
+  }
+  else {
+    $("#dieScreen").show();
+  }
+}
+
+$("button.reloadButton").click(function(){
+  location.reload();
 });
 
 $("body").keydown(function(event){
