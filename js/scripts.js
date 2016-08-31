@@ -47,10 +47,10 @@ var player = {
   // y : 550,
   // x: 1275,  // middle mound
   // y : 350,
-  // x: 400, //hi clouds
-  // y: 100,
-  x: 1400, // last cloud jump
-  y: 175,
+  x: 400, //hi clouds
+  y: 100,
+  // x: 1400, // last cloud jump
+  // y: 175,
   width : 100 * .8,
   height : 136 * .8,
   maxSpeed: 8,
@@ -75,11 +75,11 @@ Object = function (_x,_y,_width,_height) {
 
 function initializeLevel() {
   // boundaries
-  boxes.push(new Object(0, height-10, width/2, 10)); // floor
+  // boxes.push(new Object(0, height-10, width/2, 10)); // floor
   deathTriggers.push(new Object(width/2, height+136, width/2, 10)); // DEATH floor
   boxes.push(new Object(0, 0, 10, height)); // left wall
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
-  winTrigger = new Object(1400,850,40,40);
+  winTrigger = new Object(1410, 740, (32 * .95), (160 * .95));
 
   //crates
   crates.push(new Object(520, 910, 60, 60)); //1
@@ -108,6 +108,9 @@ function initializeLevel() {
   //spikes
   all_spikes.push(new Object(275, 960, 70, 110));
   all_spikes.push(new Object(1020, 493, 70, 110));
+
+  //sword
+  swords.push(new Object(1410,740,(32 * .95),(160 * .95)));
 
   //starting grounded
   ground_level.push(new Object(0, 1030, 645, 55));
@@ -249,7 +252,7 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  var allObjects = [boxes, crates, clouds, trees, columns, mounds, ledges_2, ledges_5, all_spikes, ground_level];
+  var allObjects = [boxes, crates, trees, clouds, columns, mounds, ledges_2, ledges_5, all_spikes, ground_level];
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
@@ -387,10 +390,10 @@ function render() {
     ctx.drawImage(midMound, mounds[i].x, mounds[i].y, mounds[i].width, mounds[i].height);
   }
 
-  var fspike = document.getElementById("floorspikes");
-  ctx.drawImage(fspike,1470,1000,(430 * .95),(87 * .95));
 
-  ctx.rect(winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
+  var sword = document.getElementById("sword");
+  // ctx.drawImage(sword,1410,740,(32 * .95),(160 * .95));
+  ctx.drawImage(sword, winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
   ctx.fillStyle = "#85929E";
   ctx.fill();
 
