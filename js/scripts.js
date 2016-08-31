@@ -31,9 +31,9 @@ var keys = [];
 var boxes = [];
 var crates = [];
 var ledges_2 = [];
-var ledges_3 = [];
-var ledges_5 = [];
-var ground_level = [];
+var deathTriggers = [];
+var winTrigger;
+var gameOver = false;
 var player = {
   x: 40,
   y : 50,
@@ -50,8 +50,6 @@ var player = {
   sprite: new Sprite('sprites/ninjaGirl_spriteSheet.png', [10, 0], [100, 136], 25, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "horizontal", false)
 };
 
-console.log(player);
-
 Object = function (_x,_y,_width,_height) {
   this.x = _x;
   this.y = _y;
@@ -63,9 +61,10 @@ Object = function (_x,_y,_width,_height) {
 function initializeLevel() {
   // boundaries
   boxes.push(new Object(0, height-10, width/2, 10)); // floor
-  boxes.push(new Object(width/2, height-8, width/2, 8)); // DEATH floor
+  deathTriggers.push(new Object(width/2, height+136, width/2, 10)); // DEATH floor
   boxes.push(new Object(0, 0, 10, height)); // left wall
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
+  winTrigger = new Object(525,555,180,100);
 
   //crates
   // crates.push(new Object((230), 990, 80, 80));
@@ -96,6 +95,7 @@ function update(){
 
   getInput();
   movePlayer();
+  detectTriggers();
   detectCollisions();
   render();
 
@@ -174,12 +174,12 @@ function movePlayer(){
     player.velY = 0;
   }
   else {
-      if(player.facingRight) {
-        player.sprite.pos = [0,300];
-      }
-      else {
-        player.sprite.pos = [0,750];
-      }
+    if(player.facingRight) {
+      player.sprite.pos = [0,300];
+    }
+    else {
+      player.sprite.pos = [0,750];
+    }
     player.sprite.once = true;
   }
   player.grounded = false;
@@ -191,7 +191,7 @@ function detectCollisions(){
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
-      var dir = colCheck(player, allObjects[index][i]);
+      var dir = colCheck(player, allObjects[index][i], true);
       if (dir === "l" || dir === "r") {
         player.velX = 0;
       } else if (dir === "b") {
@@ -204,7 +204,36 @@ function detectCollisions(){
   }
 }
 
-function colCheck(_shapeA, _shapeB) {
+function endGame (_win) {
+  if(!gameOver){
+    gameOver = true;
+    if (_win === true) {
+      console.log("You win!");
+    }
+    else {
+      console.log("You died!");
+    }
+  }
+}
+
+function detectTriggers () {
+  for (var i = 0; i < deathTriggers.length; i++) {
+    var dir = colCheck(player, deathTriggers[i], false);
+    if (dir === "l" || dir === "r") {
+      endGame(false);
+    } else if (dir === "b") {
+      endGame(false);
+    } else if (dir === "t") {
+      endGame(false);
+    }
+  }
+  var direction = colCheck(player, winTrigger, false);
+  if (direction === "l" || direction === "r" || direction === "t" || direction === "b") {
+    endGame(true);
+  }
+}
+
+function colCheck(_shapeA, _shapeB, _hasCollision) {
   var vX = (_shapeA.x + (_shapeA.width / 2)) - (_shapeB.x + (_shapeB.width / 2));
   var vY = (_shapeA.y +(_shapeA.height / 2)) - (_shapeB.y + (_shapeB.height / 2));
   var hWidths = (_shapeA.width / 2) + (_shapeB.width / 2);
@@ -217,21 +246,29 @@ function colCheck(_shapeA, _shapeB) {
     if (oX >= oY) {
       if (vY > 0) {
         colDir = "t";
-        _shapeA.y += oY;
+        if(_hasCollision){
+          _shapeA.y += oY;
+        }
       }
       else {
         colDir = "b";
-        _shapeA.y -= oY;
+        if(_hasCollision){
+          _shapeA.y -= oY;
+        }
       }
     }
     else {
       if (vX > 0) {
         colDir = "l";
-        _shapeA.x += oX;
+        if(_hasCollision){
+          _shapeA.x += oX;
+        }
       }
       else {
         colDir = "r";
-        _shapeA.x -= oX;
+        if(_hasCollision){
+          _shapeA.x -= oX;
+        }
       }
     }
   }
@@ -257,21 +294,13 @@ function render() {
     var ledge2 = document.getElementById("ledge2");
     ctx.drawImage(ledge2, ledges_2[i].x, ledges_2[i].y, ledges_2[i].width, ledges_2[i].height);
   }
-  for(var i = 0; i < ledges_3.length; i++) {
-    var ledge3 = document.getElementById("ledge3");
-    ctx.drawImage(ledge3, ledges_3[i].x, ledges_3[i].y, ledges_3[i].width, ledges_3[i].height);
-  }
-  for(var i = 0; i < ledges_5.length; i++) {
-    var ledge5 = document.getElementById("ledge5");
-    ctx.drawImage(ledge5, ledges_5[i].x, ledges_5[i].y, ledges_5[i].width, ledges_5[i].height);
-  }
-  for(var i = 0; i < ground_level.length; i++) {
-    var ground = document.getElementById("ground");
-    ctx.drawImage(ground, ground_level[i].x, ground_level[i].y, ground_level[i].width, ground_level[i].height);
-  }
+
   var cloud = document.getElementById("cloud");
   ctx.drawImage(cloud, 10, 10);
 
+
+
+  ctx.rect(winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
   ctx.fillStyle = "#85929E";
   ctx.fill();
 
