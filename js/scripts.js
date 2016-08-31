@@ -32,6 +32,7 @@ var boxes = [];
 var all_spikes = [];
 var crates = [];
 var clouds = [];
+var tombstones = [];
 var trees = [];
 var ledges_2 = [];
 var ledges_5 = [];
@@ -39,6 +40,7 @@ var mounds = [];
 var columns = [];
 var ground_level = [];
 var deathTriggers = [];
+var sword;
 var winTrigger;
 var gameOver = false;
 var won = false;
@@ -47,10 +49,10 @@ var player = {
   // y : 550,
   // x: 1275,  // middle mound
   // y : 350,
-  // x: 400, //hi clouds
-  // y: 100,
-  x: 1400, // last cloud jump
-  y: 175,
+  x: 400, //hi clouds
+  y: 100,
+  // x: 1400, // last cloud jump
+  // y: 175,
   width : 100 * .8,
   height : 136 * .8,
   maxSpeed: 8,
@@ -75,39 +77,43 @@ Object = function (_x,_y,_width,_height) {
 
 function initializeLevel() {
   // boundaries
-  boxes.push(new Object(0, height-10, width/2, 10)); // floor
+  // boxes.push(new Object(0, height-10, width/2, 10)); // floor
   deathTriggers.push(new Object(width/2, height+136, width/2, 10)); // DEATH floor
+  deathTriggers.push(new Object(580, 910, 60, 60));;
+  deathTriggers.push(new Object(1020, 493, 70, 110));
+  deathTriggers.push(new Object(1410, 355, (70 * .8), (130 * .8)));
   boxes.push(new Object(0, 0, 10, height)); // left wall
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
-  winTrigger = new Object(1400,850,40,40);
+  winTrigger = new Object(1410, 740, (32 * .95), (160 * .95));
 
   //crates
-  crates.push(new Object(520, 910, 60, 60)); //1
-  crates.push(new Object(580, 910, 60, 60)); //2
-  crates.push(new Object(520, 970, 60, 60)); //3
-  crates.push(new Object(580, 970, 60, 60)); //4
-
-  crates.push(new Object(1245, 535, 60, 60)); //1
+  crates.push(new Object(520, 910, 60, 60)); // top-left
+  crates.push(new Object(520, 970, 60, 60)); //bottom-left
+  crates.push(new Object(580, 970, 60, 60)); //bottom-right
+  crates.push(new Object(1245, 535, 60, 60)); //on mound
 
   //clouds
-  clouds.push(new Object(15, 475, 150, 55));
-  clouds.push(new Object(345, 340, 150, 55));
-  clouds.push(new Object(495, 340, 150, 55));
+  clouds.push(new Object(15, 475, 150, 55)); //left
+  clouds.push(new Object(345, 340, 150, 55)); //mid
+  clouds.push(new Object(495, 340, 150, 55)); //right
 
-  clouds.push(new Object(1403, 330, (150 * 1.3), (55 * 1.2)));
+  //tombstones
+  tombstones.push(new Object(270, 930, 75, 100));
 
   //ledges
-  ledges_2.push(new Object(675, 775, 120, 35));
-  ledges_2.push(new Object(345, 630, 160, 35));
+  ledges_2.push(new Object(695, 765, 120, 35)); //low-mid
+  ledges_2.push(new Object(345, 630, 160, 35)); //high-left
+  ledges_5.push(new Object(1010, 593, 430, 55)); //big-right
 
-  ledges_5.push(new Object(1010, 593, 430, 55));
+  //spikes
+  // all_spikes.push(new Object(275, 960, 70, 110));
+  all_spikes.push(new Object(580, 910, 60, 60)); // bottom-left
+  all_spikes.push(new Object(1020, 493, 70, 110)); //middle
+  all_spikes.push(new Object(1410, 355, (70 * .8), (130 * .8))); //in tree
+
 
   //trees
   trees.push(new Object(1295, 395, 185, 200));
-
-  //spikes
-  all_spikes.push(new Object(275, 960, 70, 110));
-  all_spikes.push(new Object(1020, 493, 70, 110));
 
   //starting grounded
   ground_level.push(new Object(0, 1030, 645, 55));
@@ -222,7 +228,7 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  var allObjects = [boxes, crates, clouds, trees, columns, mounds, ledges_2, ledges_5, all_spikes, ground_level];
+  var allObjects = [boxes, crates, tombstones, trees, clouds, columns, mounds, ledges_2, ledges_5, all_spikes, ground_level];
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
@@ -331,13 +337,13 @@ function render() {
     var cloud = document.getElementById("cloud");
     ctx.drawImage(cloud, clouds[i].x, clouds[i].y, clouds[i].width, clouds[i].height);
   }
-  for(var i = 0; i < trees.length; i++) {
-    var tree = document.getElementById("tree");
-    ctx.drawImage(tree, trees[i].x, trees[i].y, trees[i].width, trees[i].height);
-  }
   for(var i = 0; i < all_spikes.length; i++) {
     var spikes = document.getElementById("spikes");
     ctx.drawImage(spikes, all_spikes[i].x, all_spikes[i].y, all_spikes[i].width, all_spikes[i].height);
+  }
+  for(var i = 0; i < trees.length; i++) {
+    var tree = document.getElementById("tree");
+    ctx.drawImage(tree, trees[i].x, trees[i].y, trees[i].width, trees[i].height);
   }
   for(var i = 0; i < ledges_2.length; i++) {
     var ledge2 = document.getElementById("ledge2");
@@ -359,11 +365,15 @@ function render() {
     var midMound = document.getElementById("mid-mound");
     ctx.drawImage(midMound, mounds[i].x, mounds[i].y, mounds[i].width, mounds[i].height);
   }
+  for(var i = 0; i < tombstones.length; i++) {
+    var tombstone = document.getElementById("tombstone");
+    ctx.drawImage(tombstone, tombstones[i].x, tombstones[i].y, tombstones[i].width, tombstones[i].height);
+  }
 
-  var fspike = document.getElementById("floorspikes");
-  ctx.drawImage(fspike,1470,1000,(430 * .95),(87 * .95));
 
-  ctx.rect(winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
+  var sword = document.getElementById("sword");
+  // ctx.drawImage(sword,1410,740,(32 * .95),(160 * .95));
+  ctx.drawImage(sword, winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
   ctx.fillStyle = "#85929E";
   ctx.fill();
 
