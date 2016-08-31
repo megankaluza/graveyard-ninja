@@ -45,12 +45,12 @@ var winTrigger;
 var gameOver = false;
 var won = false;
 var player = {
-  // x: 40,  //start point
-  // y : 550,
+  x: 40,  //start point
+  y : 550,
   // x: 1275,  // middle mound
   // y : 350,
-  x: 400, //hi clouds
-  y: 100,
+  // x: 400, //hi clouds
+  // y: 100,
   // x: 1400, // last cloud jump
   // y: 175,
   width : 100 * .8,
@@ -106,8 +106,7 @@ function initializeLevel() {
   ledges_5.push(new Object(1010, 593, 430, 55)); //big-right
 
   //spikes
-  // all_spikes.push(new Object(275, 960, 70, 110));
-  all_spikes.push(new Object(580, 910, 60, 60)); // bottom-left
+  all_spikes.push(new Object(580, 870, 60, 100)); // bottom-left
   all_spikes.push(new Object(1020, 493, 70, 110)); //middle
   all_spikes.push(new Object(1410, 355, (70 * .8), (130 * .8))); //in tree
 
@@ -262,11 +261,7 @@ function endGame (_win) {
 function detectTriggers () {
   for (var i = 0; i < deathTriggers.length; i++) {
     var dir = colCheck(player, deathTriggers[i], false);
-    if (dir === "l" || dir === "r") {
-      endGame(false);
-    } else if (dir === "b") {
-      endGame(false);
-    } else if (dir === "t") {
+    if (dir === "b") {
       endGame(false);
     }
   }
@@ -370,6 +365,11 @@ function render() {
     ctx.drawImage(tombstone, tombstones[i].x, tombstones[i].y, tombstones[i].width, tombstones[i].height);
   }
 
+  var sign = document.getElementById("bewaresign");
+  ctx.drawImage(sign,1110,805,(91 * .75),(95 * .95));
+
+  var skeleton = document.getElementById("skeleton");
+  ctx.drawImage(skeleton,1145, 535, (95 * .9), (60 * .9));
 
   var sword = document.getElementById("sword");
   // ctx.drawImage(sword,1410,740,(32 * .95),(160 * .95));
