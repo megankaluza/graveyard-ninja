@@ -29,15 +29,18 @@ var friction = 0.75;
 var gravity = 0.5;
 var keys = [];
 var boxes = [];
+var all_spikes = [];
 var crates = [];
+var clouds = [];
 var ledges_2 = [];
+// var mounds = [];
 var ground_level = [];
 var deathTriggers = [];
 var winTrigger;
 var gameOver = false;
 var player = {
   x: 40,
-  y : 50,
+  y : 550,
   width : 100 * .8,
   height : 136 * .8,
   maxSpeed: 8,
@@ -65,29 +68,27 @@ function initializeLevel() {
   deathTriggers.push(new Object(width/2, height+136, width/2, 10)); // DEATH floor
   boxes.push(new Object(0, 0, 10, height)); // left wall
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
-  winTrigger = new Object(525,555,180,100);
+  winTrigger = new Object(1200,850,40,40);
 
   //crates
-  // crates.push(new Object((230), 990, 80, 80));
+  crates.push(new Object(520, 910, 60, 60)); //1
+  crates.push(new Object(580, 910, 60, 60)); //2
+  crates.push(new Object(520, 970, 60, 60)); //3
+  crates.push(new Object(580, 970, 60, 60)); //4
 
-  // crates.push(new Object((1380 - 220), 935, 60, 60)); //1
-  // crates.push(new Object((1460 - 240), 935, 60, 60)); //2
-  // crates.push(new Object((1380 - 220), 985, 60, 60)); //3
-  // crates.push(new Object((1460 - 240), 985, 60, 60)); //4
-
-
-
-  crates.push(new Object((1380 - 960), 910, 60, 60)); //1
-  crates.push(new Object((1460 - 980), 910, 60, 60)); //2
-  crates.push(new Object((1380 - 960), 970, 60, 60)); //3
-  crates.push(new Object((1460 - 980), 970, 60, 60)); //4
+  //clouds
+  clouds.push(new Object(10, 460, 150, 60));
+  clouds.push(new Object(325, 340, 150, 60));
 
   //ledges
-  // ledges_2.push(new Object(525, 655, 180, 55)); //384pz 93px
-  // ledges_2.push(new Object(775, 775, 210, 55));
+  ledges_2.push(new Object(675, 775, 120, 35));
+  ledges_2.push(new Object(345, 630, 160, 35));
+
+  //spikes
+  all_spikes.push(new Object(275, 960, 70, 110));
 
   //starting grounded
-  ground_level.push(new Object(0, 1030, 545, 55));
+  ground_level.push(new Object(0, 1030, 645, 55));
 }
 
 function update(){
@@ -188,7 +189,7 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  var allObjects = [boxes, crates, ledges_2, ground_level];
+  var allObjects = [boxes, crates, clouds, ledges_2, all_spikes, ground_level];
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
@@ -291,6 +292,14 @@ function render() {
     var crate = document.getElementById("crate");
     ctx.drawImage(crate, crates[i].x, crates[i].y, crates[i].width, crates[i].height);
   }
+  for(var i = 0; i < clouds.length; i++) {
+    var cloud = document.getElementById("cloud");
+    ctx.drawImage(cloud, clouds[i].x, clouds[i].y, clouds[i].width, clouds[i].height);
+  }
+  for(var i = 0; i < all_spikes.length; i++) {
+    var spikes = document.getElementById("spikes");
+    ctx.drawImage(spikes, all_spikes[i].x, all_spikes[i].y, all_spikes[i].width, all_spikes[i].height);
+  }
   for(var i = 0; i < ledges_2.length; i++) {
     var ledge2 = document.getElementById("ledge2");
     ctx.drawImage(ledge2, ledges_2[i].x, ledges_2[i].y, ledges_2[i].width, ledges_2[i].height);
@@ -300,15 +309,9 @@ function render() {
     ctx.drawImage(ground, ground_level[i].x, ground_level[i].y, ground_level[i].width, ground_level[i].height);
   }
 
-  var cloud = document.getElementById("cloud");
-  ctx.drawImage(cloud, 10, 10);
-
-
-
   ctx.rect(winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
   ctx.fillStyle = "#85929E";
   ctx.fill();
-
 
   // redraws character
 
