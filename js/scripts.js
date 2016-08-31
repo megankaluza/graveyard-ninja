@@ -388,17 +388,17 @@ $(document).ready(function(){
     initializeLevel();
     update();
     $("#startScreen").hide();
-    $("canvas#canvas").show();
+    $("canvas#canvas").css("display", "block");
   });
 });
 
 function drawEndScreen (){
   $("#canvas").hide();
   if(won){
-    $("#winScreen").show();
+    $("#winScreen").css("display", "block");
   }
   else {
-    $("#dieScreen").show();
+    $("#dieScreen").css("display", "block");
   }
 }
 
