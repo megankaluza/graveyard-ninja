@@ -34,7 +34,7 @@ var ledges_2 = [];
 var ledges_3 = [];
 var ledges_5 = [];
 var player = {
-  x: 30,
+  x: 40,
   y : 50,
   width : 100 * .8,
   height : 136 * .8,
@@ -259,8 +259,13 @@ function render() {
     var ledge5 = document.getElementById("ledge5");
     ctx.drawImage(ledge5, ledges_5[i].x, ledges_5[i].y, ledges_5[i].width, ledges_5[i].height);
   }
+  var cloud = document.getElementById("cloud");
+  ctx.drawImage(cloud, 10, 10);
+
   ctx.fillStyle = "#85929E";
   ctx.fill();
+
+
   // redraws character
 
   // ctx.drawImage(document.getElementById("testSprite"), player.x, player.y, player.width, player.height);
