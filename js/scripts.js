@@ -34,13 +34,14 @@ var ledges_2 = [];
 var deathTriggers = [];
 var winTrigger;
 var gameOver = false;
+var won = false;
 var player = {
   x: 40,
   y : 50,
   width : 100 * .8,
   height : 136 * .8,
   maxSpeed: 8,
-  jumpHeight: 15,
+  jumpHeight: 30,
   velX: 0,
   velY: 0,
   jumping: false,
@@ -85,22 +86,54 @@ function initializeLevel() {
 }
 
 function update(){
-  var now = Date.now();
-  var dt = (now - lastTime) / 1000.0;
+  if(!gameOver){
+    var now = Date.now();
+    var dt = (now - lastTime) / 1000.0;
 
-  getInput();
-  movePlayer();
-  detectTriggers();
-  detectCollisions();
-  render();
+    getInput();
+    movePlayer();
+    detectTriggers();
+    detectCollisions();
+    render();
 
-  player.sprite.update(dt);
-  player.sprite.render(ctx);
+    player.sprite.update(dt);
+    player.sprite.render(ctx);
 
-  lastTime = now;
+    lastTime = now;
 
-  requestAnimationFrame(update);
+    requestAnimationFrame(update);
+  }
+  else {
+    drawEndScreen();
+  }
 }
+
+function drawEndScreen (){
+  ctx.clearRect(0, 0, width, height);
+  ctx.rect(200, 100, width-400, height-200);
+  if(won){
+    ctx.fillStyle = "skyblue";
+    ctx.fill();
+    ctx.fillStyle = "papayawhip";
+    ctx.font="200px Ravi Prakash";
+    ctx.fillText("You win!", 540, 400);
+    ctx.font="60px Ravi Prakash";
+    ctx.fillText("You have guided [name] to the magical kunai", 400, 600);
+    ctx.fillText("of her ancestors!", 700, 675);
+  }
+  else {
+    ctx.fillStyle = "black";
+    ctx.fill();
+    ctx.fillStyle = "crimson";
+    ctx.font="200px Ravi Prakash";
+    ctx.fillText("You lose.", 540, 400);
+    ctx.font="60px Ravi Prakash";
+    ctx.fillText("You have killed [name]!", 625, 600);
+    ctx.fillText("Now she can never prevent the undead apocalypse!", 325, 675);
+    ctx.fillText("You have doomed us all!", 620, 750);
+  }
+}
+
 
 function getInput(){
   if (keys[38] || keys[32] || keys[87]) { // vertical
@@ -203,9 +236,11 @@ function endGame (_win) {
   if(!gameOver){
     gameOver = true;
     if (_win === true) {
+      won = true;
       console.log("You win!");
     }
     else {
+      won = false;
       console.log("You died!");
     }
   }
