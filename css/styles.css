@@ -1,5 +1,5 @@
 body {
-  background-color: #85929E;
+  background-color: lightgrey;
 }
 
 div.container h1,
@@ -61,9 +61,9 @@ button.pinkButton:hover {
 
 #canvas {
   /*background-color: black;*/
-  margin: 3% auto 10%;
+  margin: 3% auto;
   display: none;
-  border: 1px solid #000;
+  border: 3px solid rgb(116,53,125);
   background-image: url("../img/BG.png");
 }
 
@@ -80,8 +80,8 @@ button.pinkButton:hover {
   height: 1080px;
   /*background-color: rgb(31,56,61);*/
   background-image: url("../img/BG.png");
-  margin: 3% auto 10%;
-  border: 1px solid #000;
+  margin: 3% auto;
+  border: 3px solid rgb(116,53,125);;
 }
 
 div.endingScreen {
@@ -90,12 +90,31 @@ div.endingScreen {
   height: 1080px;
   /*background-color: rgb(31,56,61);*/
   background-image: url("../img/BG.png");
-  margin: 3% auto 10%;
-  border: 1px solid #000;
+  margin: 3% auto;
+  border: 3px solid rgb(116,53,125);
 }
 
 img#ninjaGirl {
   display: block;
   margin: 0 auto;
   padding-left: 75px;
+}
+
+img#arrowsImg {
+  width: 80%;
+}
+
+div#sidebar {
+  text-align: center;
+  background-color: rgb(80,106,163);
+  color: black;
+  padding: 20px;
+  margin: 62px 80px 0 -50px;
+  height: 1083px;
+}
+div#sidebar p {
+  text-align: left;
+}
+hr {
+  border-color: black;
 }

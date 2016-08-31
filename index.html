@@ -12,68 +12,87 @@
   </head>
   <body>
 
-    <div id="startScreen">
-      <div class="container">
-        <h1>Graveyard Ninja:</h1><br>
-        <h2>Apocalypse!</h2>
+    <div class="row">
+      <div class="col-xs-10">
+
+        <div id="startScreen">
+          <div class="container">
+            <h1>Graveyard Ninja:</h1><br>
+            <h2>Apocalypse!</h2>
+          </div>
+          <img id="ninjaGirl" src="img/startImage.png">
+          <button type="button" class="btn pinkButton" id="startButton">Play
+          </button>
+        </div>
+
+        <canvas id="canvas">
+        </canvas>
+
+
+        <div id="winScreen" class="endingScreen">
+          <div class="container">
+            <h1>You win!</h1>
+            <h4>You have guided Mochi to the magical kunai<br>
+            of her ancestors!</h4>
+            <button type="button" class="btn pinkButton reloadButton">Play Again
+            </button>
+          </div>
+        </div>
+
+        <div id="dieScreen" class="endingScreen">
+          <div class="container">
+            <h1>You lose.</h1>
+            <h4>You killed Mochi!<br>
+            Now she can never prevent the undead apocalypse!<br>
+            You have doomed us all!</h4>
+            <button type="button" class="btn pinkButton reloadButton">Try Again
+            </button>
+          </div>
+        </div>
       </div>
-      <img id="ninjaGirl" src="img/startImage.png">
-      <button type="button" class="btn pinkButton" id="startButton">Play
-      </button>
-    </div>
-
-    <canvas id="canvas">
-    </canvas>
-
-    <div id="winScreen" class="endingScreen">
-      <div class="container">
-        <h1>You win!</h1>
-        <h4>You have guided Mochi to the magical kunai<br>
-        of her ancestors!</h4>
-        <button type="button" class="btn pinkButton reloadButton">Play Again
-        </button>
+      <div class="col-xs-2">
+        <div id="sidebar">
+          <h1>Controls:</h1>
+          <img id="arrowsImg" src="img/arrows.png" alt="arrow keys">
+          <p>(but not actually down/s)</p>
+          <hr>
+          <h1>Premise:</h1>
+          <p>
+            Teenage Mochi is the last surviving member of an ancient clan of ninjas tasked with keeping the dark forces of the Undead at bay.
+          </p>
+          <p>
+            Now, to prevent armageddon, she must recover the magical Kunai of her ancestors before it is too late...
+          </p>
+        </div>
       </div>
     </div>
 
-    <div id="dieScreen" class="endingScreen">
-      <div class="container">
-        <h1>You lose.</h1>
-        <h4>You killed Mochi!<br>
-        Now she can never prevent the undead apocalypse!<br>
-        You have doomed us all!</h4>
-        <button type="button" class="btn pinkButton reloadButton">Try Again
-        </button>
-      </div>
-    </div>
+        <audio id="musicPlayer" loop="loop" autoplay>
+          <source src="sfx/ninja-peaks.mp3" type="audio/mp3">
+        </audio>
 
-    <audio id="musicPlayer" loop="loop" autoplay>
-      <source src="sfx/ninja-peaks.mp3" type="audio/mp3">
-    </audio>
+        <div id="hidden">
+          <img id="testAnim" src="sprites/ninjaGirl_spriteSheet.png">
+
+          <img id="crate" src="objects/Crate.png">
+          <img id="cloud" src="objects/cloud.png">
+          <img id="spikes" src="objects/spikes.png">
+          <img id="tree" src="objects/tree.png">
+          <img id="floorspikes" src="objects/floorspikes.png">
 
 
+          <img id="ledge2" src="tiles/ledge2.png">
+          <img id="ledge3" src="tiles/ledge3.png">
+          <img id="ledge5" src="tiles/ledge5.png">
+          <img id="mid-mound" src="tiles/mid-mound.png">
+          <img id="midCol" src="tiles/midCol.png">
+          <img id="ground" src="tiles/leftGround.png">
+        </div>
 
-    <div id="hidden">
-      <img id="testAnim" src="sprites/ninjaGirl_spriteSheet.png">
-
-      <img id="crate" src="objects/Crate.png">
-      <img id="cloud" src="objects/cloud.png">
-      <img id="spikes" src="objects/spikes.png">
-      <img id="tree" src="objects/tree.png">
-      <img id="floorspikes" src="objects/floorspikes.png">
-
-
-      <img id="ledge2" src="tiles/ledge2.png">
-      <img id="ledge3" src="tiles/ledge3.png">
-      <img id="ledge5" src="tiles/ledge5.png">
-      <img id="mid-mound" src="tiles/mid-mound.png">
-      <img id="midCol" src="tiles/midCol.png">
-      <img id="ground" src="tiles/leftGround.png">
-    </div>
-
-    <!--Scripts-->
-    <script src="js/jquery-3.1.0.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/spriteHandler.js"></script>
-    <script src="js/scripts.js"></script>
+        <!--Scripts-->
+        <script src="js/jquery-3.1.0.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/spriteHandler.js"></script>
+        <script src="js/scripts.js"></script>
   </body>
 </html>
