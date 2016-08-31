@@ -299,7 +299,7 @@ function colCheck(_shapeA, _shapeB) {
       }
       else {
         colDir = "r";
-        _shapeA.x -+ oX;
+        _shapeA.x -= oX;
       }
     }
   }
