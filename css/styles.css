@@ -1,5 +1,5 @@
 body {
-  background-image: url("../img/colored.jpg");
+  background-image: url("../img/skull.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
   background-color: lightgrey;
@@ -21,6 +21,7 @@ div.container h4 {
   color: rgb(116,53,125);
   text-shadow: 0 0 15px white;
 }
+
 div.container h1 {
   font-size: 200px;
   margin-top: 40px;
