@@ -32,7 +32,7 @@ var audio_win = new Audio('sfx/win-sound.wav');
 var friction = 0.75;
 var gravity = 0.5;
 var keys = [];
-var boxes = [];
+var invisWalls = [];
 var all_spikes = [];
 var crates = [];
 var clouds = [];
@@ -71,7 +71,7 @@ var player = {
   sprite: new Sprite('sprites/ninjaGirl_spriteSheet.png', [10, 0], [100, 136], 25, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "horizontal", false)
 };
 
-Object = function (_x,_y,_width,_height) {
+GameObject = function (_x,_y,_width,_height) {
   this.x = _x;
   this.y = _y;
   this.width = _width;
@@ -81,50 +81,50 @@ Object = function (_x,_y,_width,_height) {
 
 function initializeLevel() {
   // boundaries
-  // boxes.push(new Object(0, height-10, width/2, 10)); // floor
-  deathTriggers.push(new Object(0, height+136, width, 10)); // DEATH floor
-  deathTriggers.push(new Object(590, 870, 60, 100));;
-  deathTriggers.push(new Object(1020, 493, 70, 110));
-  deathTriggers.push(new Object(1410, 355, (70 * .8), (130 * .8)));
-  boxes.push(new Object(0, 0, 10, height)); // left wall
-  boxes.push(new Object(width-10, 0, 10, height)); // right wall
-  winTrigger = new Object(1410, 740, (32 * .95), (160 * .95));
+  // invisWalls.push(new GameObject(0, height-10, width/2, 10)); // floor
+  deathTriggers.push(new GameObject(0, height+136, width, 10)); // DEATH floor
+  deathTriggers.push(new GameObject(590, 870, 60, 100));;
+  deathTriggers.push(new GameObject(1020, 493, 70, 110));
+  deathTriggers.push(new GameObject(1410, 355, (70 * .8), (130 * .8)));
+  invisWalls.push(new GameObject(-10, 0, 10, height)); // left wall
+  invisWalls.push(new GameObject(width, 0, 10, height)); // right wall
+  winTrigger = new GameObject(1410, 740, (32 * .95), (160 * .95));
 
   //spikes
-  all_spikes.push(new Object(580, 870, 60, 100)); // bottom-left
-  all_spikes.push(new Object(1020, 493, 70, 110)); //middle
-  all_spikes.push(new Object(1410, 355, (70 * .8), (130 * .8))); //in tree
+  all_spikes.push(new GameObject(580, 870, 60, 100)); // bottom-left
+  all_spikes.push(new GameObject(1020, 493, 70, 110)); //middle
+  all_spikes.push(new GameObject((1420), 365, (70 * .8), (130 * .8))); //in tree
 
   //crates
-  crates.push(new Object(520, 910, 60, 60)); // top-left
-  crates.push(new Object(520, 970, 60, 60)); //bottom-left
-  crates.push(new Object(580, 970, 60, 60)); //bottom-right
-  crates.push(new Object(1245, 535, 60, 60)); //on mound
+  crates.push(new GameObject(520, 910, 60, 60)); // top-left
+  crates.push(new GameObject(520, 970, 60, 60)); //bottom-left
+  crates.push(new GameObject(580, 970, 60, 60)); //bottom-right
+  crates.push(new GameObject(1245, 545, 60, 60)); //on mound
 
   //clouds
-  clouds.push(new Object(15, 475, 150, 55)); //left
-  clouds.push(new Object(345, 340, 150, 55)); //mid
-  clouds.push(new Object(495, 340, 150, 55)); //right
+  clouds.push(new GameObject(15, (475 + 25), 150, (55 - 25))); //left
+  clouds.push(new GameObject(345, (340 + 25), 150, (55 - 25))); //mid
+  clouds.push(new GameObject(505, (340 + 25), 150, (55 - 25))); //right
 
   //tombstones
-  tombstones.push(new Object(270, 930, 75, 100));
+  tombstones.push(new GameObject(270, 930, 75, 100));
 
   //ledges
-  ledges_2.push(new Object(695, 765, 120, 35)); //low-mid
-  ledges_2.push(new Object(345, 630, 160, 35)); //high-left
-  ledges_5.push(new Object(1010, 593, 430, 55)); //big-right
+  ledges_2.push(new GameObject(695, 765, 120, 35)); //low-mid
+  ledges_2.push(new GameObject(345, 630, 160, 35)); //high-left
+  ledges_5.push(new GameObject(1010, 603, 430, 55)); //big-right
 
   //trees
-  trees.push(new Object(1295, 395, 185, 200)); //the-tree
+  trees.push(new GameObject((1295 + 20), (405 + 40), (185 - 40), (200 - 40))); //the-tree
 
   //starting grounded
-  ground_level.push(new Object(0, 1030, 645, 55));
+  ground_level.push(new GameObject(0, 1030, 645, 55));
 
   //mounds
-  mounds.push(new Object(1100, 894, (486 * .75), (256 * .75))); //middle-platform
+  mounds.push(new GameObject(1100, 894, (486 * .75), (256 * .75))); //middle-platform
 
   //columns
-  columns.push(new Object(1180, 649, (486 * .45), (256 * 1))); //middle-column
+  columns.push(new GameObject(1180, 649, (486 * .45), (256 * 1))); //middle-column
 }
 
 function update(){
@@ -230,7 +230,7 @@ function movePlayer(){
 }
 
 function detectCollisions(){
-  var allObjects = [boxes, crates, tombstones, trees, clouds, columns, mounds, ledges_2, ledges_5, all_spikes, ground_level];
+  var allObjects = [invisWalls, crates, tombstones, trees, clouds, columns, mounds, ledges_2, ledges_5, all_spikes, ground_level];
 
   for(var index = 0; index < allObjects.length; index++){
     for(var i = 0; i < allObjects[index].length; i++) {
@@ -243,20 +243,6 @@ function detectCollisions(){
       } else if  (dir === "t") {
         player.velY *= -0.5;
       }
-    }
-  }
-}
-
-function endGame (_win) {
-  if(!gameOver){
-    gameOver = true;
-    if (_win === true) {
-      won = true;
-      console.log("You win!");
-    }
-    else {
-      won = false;
-      console.log("You died!");
     }
   }
 }
@@ -313,9 +299,23 @@ function colCheck(_shapeA, _shapeB, _hasCollision) {
       }
     }
   }
-
   return colDir;
 }
+
+function endGame (_win) {
+  if(!gameOver){
+    gameOver = true;
+    if (_win === true) {
+      won = true;
+      console.log("You win!");
+    }
+    else {
+      won = false;
+      console.log("You died!");
+    }
+  }
+}
+
 
 
 // Front-End //
@@ -324,8 +324,16 @@ function render() {
   ctx.clearRect(0, 0, width, height);
   ctx.beginPath(); // DO NOT REMOVE
   // redraws static elements
-  for(var i = 0; i < boxes.length; i++) {
-    ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+
+  // POSSIBLE REFACTOR //
+  // var arrayOfArraysToRender = [];
+  // for(var index = 0; index < arrayOfArraysToRender.length; i++){
+  //
+  // }
+  // POSSIBLE REFACTOR //
+
+  for(var i = 0; i < invisWalls.length; i++) {
+    ctx.rect(invisWalls[i].x, invisWalls[i].y, invisWalls[i].width, invisWalls[i].height);
   }
   for(var i = 0; i < crates.length; i++) {
     var crate = document.getElementById("crate");
@@ -333,7 +341,7 @@ function render() {
   }
   for(var i = 0; i < clouds.length; i++) {
     var cloud = document.getElementById("cloud");
-    ctx.drawImage(cloud, clouds[i].x, clouds[i].y, clouds[i].width, clouds[i].height);
+    ctx.drawImage(cloud, clouds[i].x, clouds[i].y - 25, clouds[i].width, (clouds[i].height + 25));
   }
   for(var i = 0; i < all_spikes.length; i++) {
     var spikes = document.getElementById("spikes");
@@ -341,7 +349,7 @@ function render() {
   }
   for(var i = 0; i < trees.length; i++) {
     var tree = document.getElementById("tree");
-    ctx.drawImage(tree, trees[i].x, trees[i].y, trees[i].width, trees[i].height);
+    ctx.drawImage(tree, (trees[i].x - 20), (trees[i].y - 40), (trees[i].width + 40), (trees[i].height + 40));
   }
   for(var i = 0; i < ledges_2.length; i++) {
     var ledge2 = document.getElementById("ledge2");
@@ -372,7 +380,7 @@ function render() {
   ctx.drawImage(sign,1110,805,(91 * .75),(95 * .95));
 
   var skeleton = document.getElementById("skeleton");
-  ctx.drawImage(skeleton,1145, 535, (95 * .9), (60 * .9));
+  ctx.drawImage(skeleton,1145, 550, (95 * .9), (60 * .9));
 
   var sword = document.getElementById("sword");
   // ctx.drawImage(sword,1410,740,(32 * .95),(160 * .95));
