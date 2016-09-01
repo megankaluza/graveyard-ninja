@@ -48,14 +48,14 @@ var winTrigger;
 var gameOver = false;
 var won = false;
 var player = {
-  // x: 40,  //start point
-  // y : 550,
+  x: 40,  //start point
+  y : 550,
   // x: 1275,  // middle mound
   // y : 350,
   // x: 400, //hi clouds
   // y: 100,
-  x: 1100, // last jump
-  y: 175,
+  // x: 1100, // last jump
+  // y: 175,
   width : (100 * .8) -20,
   height : 136 * .8,
   maxSpeed: 8,
