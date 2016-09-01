@@ -49,10 +49,9 @@ Sprite.prototype.render = function(_ctx) {
     x += frame * (this.size[0] + 20);
   }
 
-
   _ctx.drawImage(document.getElementById("testAnim"),
                 x, y, this.size[0], this.size[1],
-                player.x, player.y, player.width, player.height);
+                player.x, player.y, player.width + 20, player.height);
 
 
 };
