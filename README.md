@@ -3,7 +3,7 @@
 
 #### _09-1-2016_
 
-#### By _**Caleb Paul, Megan Kaluza, Molly LeCompte, Zach Matthewstearn**_
+#### By _**Caleb Paul, Megan Kaluza, Molly LeCompte, Zachary Matthewstearn**_
 
 ## Description
 
@@ -49,7 +49,7 @@ _Megan Kaluza: megan.kaluza@gmail.com_
 
 _Molly LeCompte: mollyklecompte@gmail.com_
 
-_Zach Matthewstearn: zammo911@gmail.com_
+_Zachary Matthewstearn: zammo911@gmail.com_
 
 
 
@@ -66,4 +66,4 @@ _Garage Band_
 
 *This webpage is licensed under the GPL license.*
 
-Copyright (c) 2016 **_Caleb Paul, Megan Kaluza, Molly LeCompte, Zach Matthewstearn_**
+Copyright (c) 2016 **_Caleb Paul, Megan Kaluza, Molly LeCompte, Zachary Matthewstearn_**

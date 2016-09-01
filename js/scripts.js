@@ -23,7 +23,6 @@ canvas.height = height;
 var audio_jump = new Audio('sfx/jump.wav');
 var audio_click = new Audio('sfx/click.wav');
 var audio_die = new Audio('sfx/scream.wav');
-var audio_appear = new Audio('sfx/whoosh.wav');
 var audio_win = new Audio('sfx/win-sound.wav');
 // var music = new Audio('sfx/horrorMusic.wav');
 
@@ -57,7 +56,7 @@ var player = {
   // y: 100,
   x: 1100, // last jump
   y: 175,
-  width : 100 * .8,
+  width : (100 * .8) -20,
   height : 136 * .8,
   maxSpeed: 8,
   // jumpHeight: 15,
@@ -83,17 +82,17 @@ function initializeLevel() {
   // boundaries
   // invisWalls.push(new GameObject(0, height-10, width/2, 10)); // floor
   deathTriggers.push(new GameObject(0, height+136, width, 10)); // DEATH floor
-  deathTriggers.push(new GameObject(590, 870, 60, 100));;
-  deathTriggers.push(new GameObject(1020, 493, 70, 110));
-  deathTriggers.push(new GameObject(1410, 355, (70 * .8), (130 * .8)));
+  deathTriggers.push(new GameObject(580 + 10, (870 + 40), 60 - 20, (100 - 40)));
+  deathTriggers.push(new GameObject(1010, (493 + 40), 70, (110 - 40)));
+  deathTriggers.push(new GameObject((1420), (365 + 40), (70 * .8), ((130 * .8) - 40)));
   invisWalls.push(new GameObject(-10, 0, 10, height)); // left wall
   invisWalls.push(new GameObject(width, 0, 10, height)); // right wall
   winTrigger = new GameObject(1410, 740, (32 * .95), (160 * .95));
 
   //spikes
-  all_spikes.push(new GameObject(580, 870, 60, 100)); // bottom-left
-  all_spikes.push(new GameObject(1020, 493, 70, 110)); //middle
-  all_spikes.push(new GameObject((1420), 365, (70 * .8), (130 * .8))); //in tree
+  all_spikes.push(new GameObject(580, (870 + 40), 60, (100 - 40))); // bottom-left
+  all_spikes.push(new GameObject(1010, (493 + 40), 70, (110 - 40))); //middle
+  all_spikes.push(new GameObject((1420), (365 + 40), (70 * .8), ((130 * .8) - 40))); //in tree
 
   //crates
   crates.push(new GameObject(520, 910, 60, 60)); // top-left
@@ -115,7 +114,7 @@ function initializeLevel() {
   ledges_5.push(new GameObject(1010, 603, 430, 55)); //big-right
 
   //trees
-  trees.push(new GameObject((1295 + 20), (405 + 40), (185 - 40), (200 - 40))); //the-tree
+  trees.push(new GameObject((1295 + 20), (405 + 40), (185 - 40), ((200 - 40) - 120))); //the-tree
 
   //starting grounded
   ground_level.push(new GameObject(0, 1030, 645, 55));
@@ -307,15 +306,12 @@ function endGame (_win) {
     gameOver = true;
     if (_win === true) {
       won = true;
-      console.log("You win!");
     }
     else {
       won = false;
-      console.log("You died!");
     }
   }
 }
-
 
 
 // Front-End //
@@ -345,11 +341,13 @@ function render() {
   }
   for(var i = 0; i < all_spikes.length; i++) {
     var spikes = document.getElementById("spikes");
-    ctx.drawImage(spikes, all_spikes[i].x, all_spikes[i].y, all_spikes[i].width, all_spikes[i].height);
+    // ctx.rect(all_spikes[i].x, (all_spikes[i].y), all_spikes[i].width, (all_spikes[i].height));
+    ctx.drawImage(spikes, all_spikes[i].x, (all_spikes[i].y - 40), all_spikes[i].width, (all_spikes[i].height + 40));
   }
   for(var i = 0; i < trees.length; i++) {
     var tree = document.getElementById("tree");
-    ctx.drawImage(tree, (trees[i].x - 20), (trees[i].y - 40), (trees[i].width + 40), (trees[i].height + 40));
+    // ctx.rect(trees[i].x, (trees[i].y), trees[i].width, (trees[i].height));
+    ctx.drawImage(tree, (trees[i].x - 20), (trees[i].y - 40), (trees[i].width + 40), ((trees[i].height + 40) + 120));
   }
   for(var i = 0; i < ledges_2.length; i++) {
     var ledge2 = document.getElementById("ledge2");
@@ -365,6 +363,7 @@ function render() {
   }
   for(var i = 0; i < ledges_5.length; i++) {
     var ledge5 = document.getElementById("ledge5");
+    // ctx.rect(ledges_5[i].x, (ledges_5[i].y), ledges_5[i].width, (ledges_5[i].height));
     ctx.drawImage(ledge5, ledges_5[i].x, ledges_5[i].y, ledges_5[i].width, ledges_5[i].height);
   }
   for(var i = 0; i < mounds.length; i++) {
