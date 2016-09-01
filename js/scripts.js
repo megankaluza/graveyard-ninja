@@ -82,7 +82,7 @@ function initializeLevel() {
   // boundaries
   // invisWalls.push(new GameObject(0, height-10, width/2, 10)); // floor
   deathTriggers.push(new GameObject(0, height+136, width, 10)); // DEATH floor
-  deathTriggers.push(new GameObject(580 + 10, (870 + 40), 60 - 20, (100 - 40)));
+  deathTriggers.push(new GameObject(580 + 20, (870 + 40), 60 - 20, (100 - 40)));
   deathTriggers.push(new GameObject(1010, (493 + 40), 70, (110 - 40)));
   deathTriggers.push(new GameObject((1420), (365 + 40), (70 * .8), ((130 * .8) - 40)));
   invisWalls.push(new GameObject(-10, 0, 10, height)); // left wall
