@@ -1,44 +1,69 @@
-# _Name_
 
-#### _Project: functions for Epicodus, Date:_
+# _Graveyard Ninja: Apocolypse!_
 
-#### By _**Megan Kaluza**_
+#### _09-1-2016_
+
+#### By _**Caleb Paul, Megan Kaluza, Molly LeCompte, Zach Matthewstearn**_
 
 ## Description
 
-_This webpage displays a form with bootstrap, divs, checkboxes, ids, classes, jQuery, JavaScript, functions, and CSS that initiate a survey to decide which remaining classes to take at Epicodus. My HTML and .js pages include comments to organize and continue building my webpage_
+_Graveyard Ninja: Apocolypse! is a game where the player controls a ninja, and attempts to traverse obstacles in order to reach a goal._
+
+_The game renders on an HTML5 canvas element, and features 3 full sprite sheet animations (idle, run, and jump), thematically appropriate background design, and original music (composed by Caleb Paul)._
 
 ## Setup/Installation Requirements
 
-* _Clone this repository_
-    _To clone using Git, use the following terminal command:_
-    __
-* _Open in text editor of your choice_
-*
+* _Clone this repository (https://github.com/megankaluza/graveyard-ninja.git) to your desktop_
+* _Open index.html in the browser of your choosing_
+
+* _Alternatively, navigate to (https://megankaluza.github.io/graveyard-ninja/)_
 
 ## Known Bugs
 
-_No known bugs at this time_
+_Game is not scaleable as canvas size is fixed, site is optimized for large desktop screens_
+_Collision with certain game objects occasionally triggers a 'double jump'_
+
+## Specifications
+* On page load:
+    - Site opens to a start screen in a canvas element
+    - Music plays on a 90 sec loop
+    - Start button loads
+    - Instructions for game controls load in a column to the right of canvas element
+* On start press:
+    - canvas element loads
+    - player can move, jump, and interact with game environment
+    - contact pits and spikes, trigger player death
+    - contact with kunai (goal item), triggers player win
+* On player death:
+    - Game hides canvas, and shows div with 'lose screen'
+    - game plays audio of a scream
+* On player win:
+  - Game hides canvas, and shows div with 'win screen'
+  - Game plays a 'win' sound
 
 ## Support and contact details
 
+_Caleb Paul: @calebpaulmusic_
+
+_Megan Kaluza: megan.kaluza@gmail.com_
+
+_Molly LeCompte: mollyklecompte@gmail.com_
+
+_Zach Matthewstearn: zammo911@gmail.com_
+
+
+
 ## Technologies Used
 
-_HTML_
-_CSS_
 _Bootstrap_
-_Google Fonts_
+_HTML5 Canvas_
+_Javascript_
 _jQuery_
-_JavaScript_
+_Garage Band_
 
 ### License
+*Art assets sourced from http://www.gameart2d.com/*
 
-Copyright (c) 2016 **_Megan Kaluza_**
+*This webpage is licensed under the GPL license.*
 
-This software is licensed under the MIT license.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Copyright (c) 2016 **_Caleb Paul, Megan Kaluza, Molly LeCompte, Zach Matthewstearn_**
