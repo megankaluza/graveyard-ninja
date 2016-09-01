@@ -24,7 +24,7 @@ var audio_jump = new Audio('sfx/jump.wav');
 var audio_click = new Audio('sfx/click.wav');
 var audio_die = new Audio('sfx/scream.wav');
 var audio_appear = new Audio('sfx/whoosh.wav');
-var audio_win = new Audio('sfx/kazoo.wav');
+var audio_win = new Audio('sfx/win-sound.wav');
 // var music = new Audio('sfx/horrorMusic.wav');
 
 //////// not front end because nubs, but should be....
@@ -49,19 +49,19 @@ var winTrigger;
 var gameOver = false;
 var won = false;
 var player = {
-  x: 40,  //start point
-  y : 550,
+  // x: 40,  //start point
+  // y : 550,
   // x: 1275,  // middle mound
   // y : 350,
   // x: 400, //hi clouds
   // y: 100,
-  // x: 1400, // last cloud jump
-  // y: 175,
+  x: 1100, // last jump
+  y: 175,
   width : 100 * .8,
   height : 136 * .8,
   maxSpeed: 8,
   // jumpHeight: 15,
-  jumpHeight: 13,
+  jumpHeight: 12.75,
   velX: 0,
   velY: 0,
   jumping: false,
@@ -83,12 +83,17 @@ function initializeLevel() {
   // boundaries
   // boxes.push(new Object(0, height-10, width/2, 10)); // floor
   deathTriggers.push(new Object(0, height+136, width, 10)); // DEATH floor
-  deathTriggers.push(new Object(580, 910, 60, 60));;
+  deathTriggers.push(new Object(590, 870, 60, 100));;
   deathTriggers.push(new Object(1020, 493, 70, 110));
   deathTriggers.push(new Object(1410, 355, (70 * .8), (130 * .8)));
   boxes.push(new Object(0, 0, 10, height)); // left wall
   boxes.push(new Object(width-10, 0, 10, height)); // right wall
   winTrigger = new Object(1410, 740, (32 * .95), (160 * .95));
+
+  //spikes
+  all_spikes.push(new Object(580, 870, 60, 100)); // bottom-left
+  all_spikes.push(new Object(1020, 493, 70, 110)); //middle
+  all_spikes.push(new Object(1410, 355, (70 * .8), (130 * .8))); //in tree
 
   //crates
   crates.push(new Object(520, 910, 60, 60)); // top-left
@@ -109,23 +114,17 @@ function initializeLevel() {
   ledges_2.push(new Object(345, 630, 160, 35)); //high-left
   ledges_5.push(new Object(1010, 593, 430, 55)); //big-right
 
-  //spikes
-  all_spikes.push(new Object(580, 870, 60, 100)); // bottom-left
-  all_spikes.push(new Object(1020, 493, 70, 110)); //middle
-  all_spikes.push(new Object(1410, 355, (70 * .8), (130 * .8))); //in tree
-
-
   //trees
-  trees.push(new Object(1295, 395, 185, 200));
+  trees.push(new Object(1295, 395, 185, 200)); //the-tree
 
   //starting grounded
   ground_level.push(new Object(0, 1030, 645, 55));
 
   //mounds
-  mounds.push(new Object(1100, 894, (486 * .75), (256 * .75)));
+  mounds.push(new Object(1100, 894, (486 * .75), (256 * .75))); //middle-platform
 
   //columns
-  columns.push(new Object(1180, 649, (486 * .45), (256 * 1)));
+  columns.push(new Object(1180, 649, (486 * .45), (256 * 1))); //middle-column
 }
 
 function update(){
@@ -266,12 +265,12 @@ function detectTriggers () {
   for (var i = 0; i < deathTriggers.length; i++) {
     var dir = colCheck(player, deathTriggers[i], false);
     if (dir === "b") {
-      endGame(false);
+      setTimeout(function(){endGame(false);},100);
     }
   }
   var direction = colCheck(player, winTrigger, false);
   if (direction === "l" || direction === "r" || direction === "t" || direction === "b") {
-    endGame(true);
+    setTimeout(function(){endGame(true);},200);
   }
 }
 
