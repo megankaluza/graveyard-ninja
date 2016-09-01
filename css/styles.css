@@ -1,5 +1,12 @@
 body {
+  background-image: url("../img/colored.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
   background-color: lightgrey;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 div.container h1,
@@ -50,17 +57,14 @@ button.pinkButton {
   background-color: rgb(255,102,102);
   color: white;
 }
+
 button.pinkButton:hover {
   color: white;
   box-shadow: 0 0 15px white;
 }
 
-.graphics {
-  display: none;
-}
-
 #canvas {
-  /*background-color: black;*/
+  /*box-shadow: 10px 10px 20px black;*/
   margin: 3% auto;
   display: none;
   border: 3px solid rgb(116,53,125);
@@ -112,9 +116,11 @@ div#sidebar {
   margin: 62px 80px 0 -50px;
   height: 1083px;
 }
+
 div#sidebar p {
   text-align: left;
 }
+
 hr {
   border-color: black;
 }
