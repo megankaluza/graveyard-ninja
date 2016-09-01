@@ -115,10 +115,12 @@ div#sidebar {
   padding: 20px;
   margin: 62px 80px 0 -50px;
   height: 1083px;
+  opacity: 0.9;
 }
 
 div#sidebar p {
   text-align: left;
+  opacity:
 }
 
 hr {
