@@ -7,6 +7,8 @@
 
 ## Description
 
+![screenshot](img/screenshot.png)
+
 _Graveyard Ninja: Apocolypse! is a game where the player controls a ninja, and attempts to traverse obstacles in order to reach a goal._
 
 _The game renders on an HTML5 canvas element, and features 3 full sprite sheet animations (idle, run, and jump), thematically appropriate background design, and original music (composed by Caleb Paul)._
