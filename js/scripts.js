@@ -400,7 +400,7 @@ $(document).ready(function(){
     initializeLevel();
     update();
     $("#startScreen").hide();
-    $("#sidebar").hide();
+    // $("#sidebar").hide();
     $("canvas#canvas").css("display", "block");
   });
 });
