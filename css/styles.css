@@ -129,7 +129,7 @@ hr {
 }
 
 /* Media Queries*/
-@media only screen
+/*@media only screen
 and (max-width: 1500px) {
 
   div.container h1 {
@@ -163,4 +163,4 @@ and (max-width: 1500px) {
     width: 1440px;
     height: 100%;
   }
-}
+}*/
