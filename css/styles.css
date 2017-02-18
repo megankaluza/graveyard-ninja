@@ -144,8 +144,10 @@ and (max-width: 1500px) {
   #canvas {
     width: 1440px;
     height: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 3% auto;
+    display: none;
+    border: 3px solid rgb(116,53,125);
+    background-image: url("../img/BG.png");
   }
 
   #startScreen {
